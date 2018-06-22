@@ -35,3 +35,7 @@ compileTestKotlin {
 test {
     useJUnitPlatform()
 }
+
+task factlin {
+    println("[factlin] task test....")
+}
