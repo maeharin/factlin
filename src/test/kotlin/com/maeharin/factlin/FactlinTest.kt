@@ -7,6 +7,6 @@ class FactlinTest {
     @Test
     fun testFactlin() {
         val factlin = Factlin()
-        assertEquals("fuge", factlin.exec())
+        assertEquals("hoge", factlin.exec())
     }
 }

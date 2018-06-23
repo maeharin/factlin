@@ -9,8 +9,15 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.8.2"
+    id "maven-publish"
+}
+
+def factlinVersion = '0.0.1'
+
 group 'com.maeharin'
-version '1.0-SNAPSHOT'
+version factlinVersion
 
 apply plugin: 'kotlin'
 
@@ -39,3 +46,33 @@ test {
 task factlin {
     println("[factlin] task test....")
 }
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId 'com.maeharin'
+            artifactId 'factlin'
+            version '0.0.1'
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['MyPublication']
+
+    pkg {
+        repo = 'factlin'
+        name = 'factlin'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/maeharin/factlin'
+        version {
+            name = factlinVersion
+            desc = 'TODO unkown...'
+        }
+    }
+    //configurations = ['archives']
+}
+
