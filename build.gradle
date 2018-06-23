@@ -21,12 +21,16 @@ version factlinVersion
 
 apply plugin: 'kotlin'
 
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    // for as gradle plugin
+    compile gradleApi()
 
     testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
     testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
@@ -41,10 +45,6 @@ compileTestKotlin {
 
 test {
     useJUnitPlatform()
-}
-
-task factlin {
-    println("[factlin] task test....")
 }
 
 publishing {
@@ -72,6 +72,8 @@ bintray {
             name = factlinVersion
             desc = 'TODO unkown...'
         }
+        // auto publish
+        publish = true
     }
     //configurations = ['archives']
 }
