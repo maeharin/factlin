@@ -1,5 +1,8 @@
 package com.maeharin.factlin.gradle
 
 open class FactlinExtension {
-    var configPath = "aaa"
+    var dbUrl = ""
+    var dbUser = ""
+    var dbPassword = ""
+    var dbDialect = ""
 }

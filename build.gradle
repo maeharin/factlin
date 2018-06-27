@@ -72,8 +72,7 @@ bintray {
             name = factlinVersion
             desc = 'TODO unkown...'
         }
-        // auto publish
-        publish = true
+        publish = true // auto publish
     }
     //configurations = ['archives']
 }

@@ -8,6 +8,6 @@ open class FactlinTask: DefaultTask() {
     @TaskAction
     fun factlinGenerate() {
         val factlinExtension = getProject().extensions.getByType(FactlinExtension::class.java)
-        FactlinCore(configPath = factlinExtension.configPath).exec()
+        FactlinCore(factlinExtension).exec()
     }
 }
