@@ -32,6 +32,9 @@ dependencies {
     // for as gradle plugin
     compile gradleApi()
 
+    // template engine
+    compile "org.freemarker:freemarker:2.3.28"
+
     testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
     testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
 }

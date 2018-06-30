@@ -9,6 +9,7 @@ buildscript {
 
         // factlin
         classpath files("../build/libs/factlin-0.0.1.jar")
+        classpath "org.freemarker:freemarker:2.3.28"
 
         // postgres
         classpath "org.postgresql:postgresql:42.1.4"

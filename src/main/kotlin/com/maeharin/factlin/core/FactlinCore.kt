@@ -1,12 +1,14 @@
 package com.maeharin.factlin.core
 
+import com.maeharin.factlin.core.code.CodeGenerator
+import com.maeharin.factlin.core.schema.SchemaRetriever
 import com.maeharin.factlin.gradle.FactlinExtension
 
 data class FactlinCore(
         val extension: FactlinExtension
 ) {
     fun exec() {
-        // todo user logger
+        // todo use logger
         println("------------------------------------")
         println("[factlin generate]")
         println("------------------------------------")

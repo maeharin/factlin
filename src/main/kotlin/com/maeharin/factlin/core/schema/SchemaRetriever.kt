@@ -1,4 +1,4 @@
-package com.maeharin.factlin.core
+package com.maeharin.factlin.core.schema
 
 import com.maeharin.factlin.gradle.FactlinExtension
 import java.sql.DatabaseMetaData
@@ -73,21 +73,3 @@ class SchemaRetriever(
         return columns
     }
 }
-
-data class Table(
-        val name: String,
-        val comment: String?,
-        val schema: String,
-        val catalog: String?,
-        val columns: List<Column>
-)
-
-data class Column(
-        val name: String,
-        val type: Int,
-        val typeName: String,
-        val defaultValue: String?,
-        val isNullable: Boolean,
-        val isPrimaryKey: Boolean,
-        val comment: String?
-)
