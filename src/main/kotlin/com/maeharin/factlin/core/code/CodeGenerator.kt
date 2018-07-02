@@ -6,6 +6,7 @@ import com.maeharin.factlin.core.schema.Table
 import com.maeharin.factlin.util.toCamelCase
 import freemarker.template.Configuration
 import java.io.*
+import java.sql.Types
 
 class CodeGenerator(
         val table: Table
@@ -33,12 +34,15 @@ class CodeGenerator(
                         "utf-8"
                 )
         )
+        // debug
+        //val writer = StringWriter()
 
         // generate!
         try {
-            //val writer = OutputStreamWriter(System.out)
             val viewModel = mapOf("klass" to klass)
             template.process(viewModel, writer)
+            // debug
+            //println(writer.toString())
         } finally {
             writer.close()
         }
@@ -94,30 +98,92 @@ data class Prop(
         return name.toCamelCase()
     }
 
+    /**
+     * build prop's Kotlin type
+     */
     fun type(): String {
-        println("------------")
-        println(typeName)
-        println("------------")
-
-        val typeStr = when (typeName) {
-            else -> "[TODO: UNKOWN]"
+        // todo customizable
+        return when (type) {
+            // java.sql.Types => Kotlin type
+            // see: https://docs.oracle.com/cd/E16338_01/java.112/b56281/datacc.htm#BHCJBJCC
+            Types.BIT -> "Boolean"
+            Types.TINYINT -> "Byte"
+            Types.SMALLINT -> "Short"
+            Types.INTEGER -> "Int"
+            Types.BIGINT -> "Long"
+            Types.FLOAT -> "Double"
+            Types.REAL -> "Float"
+            Types.DOUBLE -> "Double"
+            Types.NUMERIC -> "java.math.BigDecimal"
+            Types.DECIMAL -> "java.math.BigDecimal"
+            Types.CHAR -> "String"
+            Types.VARCHAR -> "String"
+            Types.LONGVARCHAR -> "String"
+            Types.DATE -> "java.time.LocalDate"
+            Types.TIME -> "java.time.LocalTime"
+            Types.TIMESTAMP -> "java.time.LocalDateTime"
+            Types.BINARY -> "Byte"
+            Types.VARBINARY -> "Byte"
+            Types.LONGVARBINARY -> "Byte"
+            //Types.NULL -> ""
+            //Types.OTHER -> ""
+            //Types.JAVA_OBJECT -> ""
+            //Types.DISTINCT -> ""
+            Types.STRUCT -> "java.sql.Struct"
+            Types.ARRAY -> "java.sql.Array"
+            Types.BLOB -> "java.sql.Blob"
+            Types.CLOB -> "java.sql.Clob"
+            Types.REF -> "java.sql.Ref"
+            //Types.DATALINK -> ""
+            Types.BOOLEAN -> "Boolean"
+            Types.ROWID -> "java.sql.RowId"
+            Types.NCHAR -> "String"
+            Types.NVARCHAR -> "String"
+            Types.LONGNVARCHAR -> "String"
+            //Types.NCLOB -> ""
+            //Types.SQLXML -> ""
+            //Types.REF_CURSOR -> ""
+            Types.TIME_WITH_TIMEZONE -> "java.time.LocalTime"
+            Types.TIMESTAMP_WITH_TIMEZONE -> "java.time.LocalDateTime"
+            else -> "[UNKOWN]"
         }
-
-        val nullPostfix = if(isNullable) "?" else ""
-
-        return "$typeStr$nullPostfix"
     }
 
+    /**
+     * build default value
+     * todo customizable
+     */
     fun defaultValue(): Any {
         if (defaultValue != null) {
-            return defaultValue
+            // todo: other pattern
+            return when(defaultValue) {
+                is String -> when {
+                    defaultValue.startsWith("nextval(") -> "0"
+                    defaultValue == "now()" -> when(type()) {
+                        "java.time.LocalDate" -> "LocalDate.now()"
+                        "java.time.LocalTime" -> "LocalTime.now()"
+                        "java.time.LocalDateTime" -> "LocalDateTime.now()"
+                        else -> "LocalDateTime.now()"
+                    }
+                    else -> defaultValue
+                }
+                else -> defaultValue
+            }
         }
 
         if (isNullable) {
             return "null"
         }
 
-        return "[TODO: no default value. must implement]"
+        return when(type()) {
+            "String" -> "\"\""
+            "Int" -> "0"
+            "Boolean" -> "false"
+            "java.time.LocalDate" -> "LocalDate.now()"
+            "java.time.LocalTime" -> "LocalTime.now()"
+            "java.time.LocalDateTime" -> "LocalDateTime.now()"
+            else -> ""
+        }
     }
 }
 
