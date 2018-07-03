@@ -15,6 +15,8 @@ class CodeGenerator(
         val klass = _buildKlass()
 
         println("generating klass ${klass.fileName()}....")
+        println("types: ${klass.props.map { it.type() }}")
+        println("imports: ${klass.imports()}")
 
         val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS).also {
             it.setClassForTemplateLoading(javaClass, "/factlin")
@@ -83,6 +85,18 @@ data class Klass(
     fun fileName(): String {
         return "${name()}.kt"
     }
+
+    fun imports(): Set<String> {
+        return props.map { prop ->
+            val type = prop.type()
+
+            if (type.contains(".")) {
+                "import ${type}"
+            } else {
+                null
+            }
+        }.filterNotNull().toSet()
+    }
 }
 
 data class Prop(
@@ -106,6 +120,7 @@ data class Prop(
         return when (type) {
             // java.sql.Types => Kotlin type
             // see: https://docs.oracle.com/cd/E16338_01/java.112/b56281/datacc.htm#BHCJBJCC
+            // todo string to enum(shortname & longname)
             Types.BIT -> "Boolean"
             Types.TINYINT -> "Byte"
             Types.SMALLINT -> "Short"

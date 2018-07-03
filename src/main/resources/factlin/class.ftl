@@ -1,5 +1,8 @@
 <#-- below comment is for intellij code completion -->
 <#-- @ftlvariable name="klass" type="com.maeharin.factlin.core.code.Klass" -->
+<#list klass.imports() as import>
+${import}
+</#list>
 
 data class ${klass.name()} (
 <#list klass.props as prop>
