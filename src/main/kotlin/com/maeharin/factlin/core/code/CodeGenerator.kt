@@ -90,14 +90,37 @@ data class Klass(
         return props.map { prop ->
             val type = prop.type()
 
-            if (type.contains(".")) {
-                "import ${type}"
+            if (type.longName.contains(".")) {
+                "import ${type.longName}"
             } else {
                 null
             }
         }.filterNotNull().toSet()
     }
 }
+
+enum class KType(val shortName: String, val longName: String) {
+    BOOLEAN("Boolean", "Boolean"),
+    BYTE("Byte", "Byte"),
+    SHORT("Short", "Short"),
+    INT("Int", "Int"),
+    LONG("Long", "Long"),
+    DOUBLE("Double", "Double"),
+    FLOAT("Float", "Float"),
+    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal"),
+    STRING("String", "String"),
+    LOCAL_DATE("LocalDate", "java.time.LocalDate"),
+    LOCAL_TIME("LocalTime", "java.time.LocalTime"),
+    LOCAL_DATE_TIME("LocalDateTime", "java.time.LocalDateTime"),
+    SQL_STRUCT("Struct", "java.sql.Struct"),
+    SQL_ARRAY("Array", "java.sql.Array"),
+    SQL_BLOB("Blob", "java.sql.Blob"),
+    SQL_CLOB("Clob", "java.sql.Clob"),
+    SQL_REF("Ref", "java.sql.Ref"),
+    SQL_ROW_ID("RowId", "java.sql.RowId"),
+    UNKNOWN("[UNKNOWN]", "[UNKNOWN]"),
+}
+
 
 data class Prop(
         private val name: String,
@@ -115,52 +138,52 @@ data class Prop(
     /**
      * build prop's Kotlin type
      */
-    fun type(): String {
+    fun type(): KType {
         // todo customizable
         return when (type) {
             // java.sql.Types => Kotlin type
             // see: https://docs.oracle.com/cd/E16338_01/java.112/b56281/datacc.htm#BHCJBJCC
             // todo string to enum(shortname & longname)
-            Types.BIT -> "Boolean"
-            Types.TINYINT -> "Byte"
-            Types.SMALLINT -> "Short"
-            Types.INTEGER -> "Int"
-            Types.BIGINT -> "Long"
-            Types.FLOAT -> "Double"
-            Types.REAL -> "Float"
-            Types.DOUBLE -> "Double"
-            Types.NUMERIC -> "java.math.BigDecimal"
-            Types.DECIMAL -> "java.math.BigDecimal"
-            Types.CHAR -> "String"
-            Types.VARCHAR -> "String"
-            Types.LONGVARCHAR -> "String"
-            Types.DATE -> "java.time.LocalDate"
-            Types.TIME -> "java.time.LocalTime"
-            Types.TIMESTAMP -> "java.time.LocalDateTime"
-            Types.BINARY -> "Byte"
-            Types.VARBINARY -> "Byte"
-            Types.LONGVARBINARY -> "Byte"
-            //Types.NULL -> ""
-            //Types.OTHER -> ""
-            //Types.JAVA_OBJECT -> ""
-            //Types.DISTINCT -> ""
-            Types.STRUCT -> "java.sql.Struct"
-            Types.ARRAY -> "java.sql.Array"
-            Types.BLOB -> "java.sql.Blob"
-            Types.CLOB -> "java.sql.Clob"
-            Types.REF -> "java.sql.Ref"
-            //Types.DATALINK -> ""
-            Types.BOOLEAN -> "Boolean"
-            Types.ROWID -> "java.sql.RowId"
-            Types.NCHAR -> "String"
-            Types.NVARCHAR -> "String"
-            Types.LONGNVARCHAR -> "String"
-            //Types.NCLOB -> ""
-            //Types.SQLXML -> ""
-            //Types.REF_CURSOR -> ""
-            Types.TIME_WITH_TIMEZONE -> "java.time.LocalTime"
-            Types.TIMESTAMP_WITH_TIMEZONE -> "java.time.LocalDateTime"
-            else -> "[UNKOWN]"
+            Types.BIT -> KType.BOOLEAN
+            Types.TINYINT -> KType.BYTE
+            Types.SMALLINT -> KType.SHORT
+            Types.INTEGER -> KType.INT
+            Types.BIGINT -> KType.LONG
+            Types.FLOAT -> KType.DOUBLE
+            Types.REAL -> KType.FLOAT
+            Types.DOUBLE -> KType.DOUBLE
+            Types.NUMERIC -> KType.BIG_DECIMAL
+            Types.DECIMAL -> KType.BIG_DECIMAL
+            Types.CHAR -> KType.STRING
+            Types.VARCHAR -> KType.STRING
+            Types.LONGVARCHAR -> KType.STRING
+            Types.DATE -> KType.LOCAL_DATE
+            Types.TIME -> KType.LOCAL_TIME
+            Types.TIMESTAMP -> KType.LOCAL_DATE_TIME
+            Types.BINARY -> KType.BYTE
+            Types.VARBINARY -> KType.BYTE
+            Types.LONGVARBINARY -> KType.BYTE
+            //Types.NULL -> KType.
+            //Types.OTHER -> KType.
+            //Types.JAVA_OBJECT -> KType.
+            //Types.DISTINCT -> KType.
+            Types.STRUCT -> KType.SQL_STRUCT
+            Types.ARRAY -> KType.SQL_ARRAY
+            Types.BLOB -> KType.SQL_BLOB
+            Types.CLOB -> KType.SQL_CLOB
+            Types.REF -> KType.SQL_REF
+            //Types.DATALINK -> KType.
+            Types.BOOLEAN -> KType.BOOLEAN
+            Types.ROWID -> KType.SQL_ROW_ID
+            Types.NCHAR -> KType.STRING
+            Types.NVARCHAR -> KType.STRING
+            Types.LONGNVARCHAR -> KType.STRING
+            //Types.NCLOB -> KType.
+            //Types.SQLXML -> KType.
+            //Types.REF_CURSOR -> KType.
+            Types.TIME_WITH_TIMEZONE -> KType.LOCAL_TIME
+            Types.TIMESTAMP_WITH_TIMEZONE -> KType.LOCAL_DATE_TIME
+            else -> KType.UNKNOWN
         }
     }
 
@@ -175,9 +198,9 @@ data class Prop(
                 is String -> when {
                     defaultValue.startsWith("nextval(") -> "0"
                     defaultValue == "now()" -> when(type()) {
-                        "java.time.LocalDate" -> "LocalDate.now()"
-                        "java.time.LocalTime" -> "LocalTime.now()"
-                        "java.time.LocalDateTime" -> "LocalDateTime.now()"
+                        KType.LOCAL_DATE -> "LocalDate.now()"
+                        KType.LOCAL_TIME -> "LocalTime.now()"
+                        KType.LOCAL_DATE_TIME -> "LocalDateTime.now()"
                         else -> "LocalDateTime.now()"
                     }
                     else -> defaultValue
@@ -191,12 +214,12 @@ data class Prop(
         }
 
         return when(type()) {
-            "String" -> "\"\""
-            "Int" -> "0"
-            "Boolean" -> "false"
-            "java.time.LocalDate" -> "LocalDate.now()"
-            "java.time.LocalTime" -> "LocalTime.now()"
-            "java.time.LocalDateTime" -> "LocalDateTime.now()"
+            KType.STRING -> "\"\""
+            KType.INT -> "0"
+            KType.BOOLEAN -> "false"
+            KType.LOCAL_DATE -> "LocalDate.now()"
+            KType.LOCAL_TIME -> "LocalTime.now()"
+            KType.LOCAL_DATE_TIME -> "LocalDateTime.now()"
             else -> ""
         }
     }

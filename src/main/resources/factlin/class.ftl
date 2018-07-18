@@ -6,6 +6,6 @@ ${import}
 
 data class ${klass.name()} (
 <#list klass.props as prop>
-    val ${prop.name()}: ${prop.type()}<#if prop.isNullable()>?</#if> = ${prop.defaultValue()}<#if prop?has_next>,</#if> <#if prop.comment??>// ${prop.comment}</#if>
+    val ${prop.name()}: ${prop.type().shortName}<#if prop.isNullable()>?</#if> = ${prop.defaultValue()}<#if prop?has_next>,</#if> <#if prop.comment??>// ${prop.comment}</#if>
 </#list>
 )
