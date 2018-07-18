@@ -143,7 +143,6 @@ data class Prop(
         return when (type) {
             // java.sql.Types => Kotlin type
             // see: https://docs.oracle.com/cd/E16338_01/java.112/b56281/datacc.htm#BHCJBJCC
-            // todo string to enum(shortname & longname)
             Types.BIT -> KType.BOOLEAN
             Types.TINYINT -> KType.BYTE
             Types.SMALLINT -> KType.SHORT
