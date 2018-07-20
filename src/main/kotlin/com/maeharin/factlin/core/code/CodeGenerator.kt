@@ -18,12 +18,15 @@ class CodeGenerator(
         println("types: ${klass.props.map { it.type() }}")
         println("imports: ${klass.imports()}")
 
+        // template config
+        // todo customize template path
         val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS).also {
             it.setClassForTemplateLoading(javaClass, "/factlin")
         }
         val template = config.getTemplate("class.ftl")
 
-        // output writer
+        // output config
+        // todo customize output dir
         val dirPath = "src/test/kotlin/factlin/fixtures"
         val dir = File(dirPath)
         if (dir.isFile) throw FactlinException(ErrorMessage.MustBeDir)
@@ -58,6 +61,7 @@ class CodeGenerator(
                 catalog = table.catalog,
                 props = table.columns.map { columnMeta ->
                     Prop(
+                            tableName = table.name,
                             name = columnMeta.name,
                             type = columnMeta.type,
                             typeName = columnMeta.typeName,
@@ -74,7 +78,7 @@ class CodeGenerator(
 data class Klass(
         private val name: String,
         val comment: String,
-        val schema: String,
+        val schema: String?,
         private val catalog: String?,
         val props: List<Prop>
 ) {
@@ -99,30 +103,25 @@ data class Klass(
     }
 }
 
-enum class KType(val shortName: String, val longName: String) {
-    BOOLEAN("Boolean", "Boolean"),
-    BYTE("Byte", "Byte"),
-    SHORT("Short", "Short"),
-    INT("Int", "Int"),
-    LONG("Long", "Long"),
-    DOUBLE("Double", "Double"),
-    FLOAT("Float", "Float"),
-    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal"),
-    STRING("String", "String"),
-    LOCAL_DATE("LocalDate", "java.time.LocalDate"),
-    LOCAL_TIME("LocalTime", "java.time.LocalTime"),
-    LOCAL_DATE_TIME("LocalDateTime", "java.time.LocalDateTime"),
-    SQL_STRUCT("Struct", "java.sql.Struct"),
-    SQL_ARRAY("Array", "java.sql.Array"),
-    SQL_BLOB("Blob", "java.sql.Blob"),
-    SQL_CLOB("Clob", "java.sql.Clob"),
-    SQL_REF("Ref", "java.sql.Ref"),
-    SQL_ROW_ID("RowId", "java.sql.RowId"),
-    UNKNOWN("[UNKNOWN]", "[UNKNOWN]"),
+enum class KType(val shortName: String, val longName: String, val defaultValue: String) {
+    BOOLEAN("Boolean", "Boolean", "false"),
+    BYTE("Byte", "Byte", "0"),
+    SHORT("Short", "Short", "0"),
+    INT("Int", "Int", "0"),
+    LONG("Long", "Long", "0"),
+    DOUBLE("Double", "Double", "0.0"),
+    FLOAT("Float", "Float", "0F"),
+    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal", "0.toBigDecimal()"),
+    STRING("String", "String", "\"\""),
+    LOCAL_DATE("LocalDate", "java.time.LocalDate", "LocalDate.now()"),
+    LOCAL_TIME("LocalTime", "java.time.LocalTime", "LocalTime.now()"),
+    LOCAL_DATE_TIME("LocalDateTime", "java.time.LocalDateTime", "LocalDateTime.now()"),
+    UNKNOWN("[UNKNOWN]", "[UNKNOWN]", "[UNKNOWN]"),
 }
 
 
 data class Prop(
+        val tableName: String,
         private val name: String,
         private val type: Int,
         private val typeName: String,
@@ -162,27 +161,32 @@ data class Prop(
             Types.BINARY -> KType.BYTE
             Types.VARBINARY -> KType.BYTE
             Types.LONGVARBINARY -> KType.BYTE
-            //Types.NULL -> KType.
-            //Types.OTHER -> KType.
-            //Types.JAVA_OBJECT -> KType.
-            //Types.DISTINCT -> KType.
-            Types.STRUCT -> KType.SQL_STRUCT
-            Types.ARRAY -> KType.SQL_ARRAY
-            Types.BLOB -> KType.SQL_BLOB
-            Types.CLOB -> KType.SQL_CLOB
-            Types.REF -> KType.SQL_REF
-            //Types.DATALINK -> KType.
             Types.BOOLEAN -> KType.BOOLEAN
-            Types.ROWID -> KType.SQL_ROW_ID
             Types.NCHAR -> KType.STRING
             Types.NVARCHAR -> KType.STRING
             Types.LONGNVARCHAR -> KType.STRING
-            //Types.NCLOB -> KType.
-            //Types.SQLXML -> KType.
-            //Types.REF_CURSOR -> KType.
             Types.TIME_WITH_TIMEZONE -> KType.LOCAL_TIME
             Types.TIMESTAMP_WITH_TIMEZONE -> KType.LOCAL_DATE_TIME
-            else -> KType.UNKNOWN
+            else -> {
+                //Types.NULL
+                //Types.OTHER
+                //Types.JAVA_OBJECT
+                //Types.DISTINCT
+                //Types.STRUCT
+                //Types.ARRAY
+                //Types.BLOB
+                //Types.CLOB
+                //Types.REF
+                //Types.DATALINK
+                //Types.ROWID
+                //Types.NCLOB
+                //Types.SQLXML
+                //Types.REF_CURSOR
+                println("---------------------")
+                println("unkown. [${tableName}.${name}] type: ${type}")
+                println("---------------------")
+                KType.UNKNOWN
+            }
         }
     }
 
@@ -193,6 +197,8 @@ data class Prop(
     fun defaultValue(): Any {
         if (defaultValue != null) {
             // todo: other pattern
+            // ('now'::text)::date
+            // 'G'::mpaa_rating
             return when(defaultValue) {
                 is String -> when {
                     defaultValue.startsWith("nextval(") -> "0"
@@ -212,15 +218,7 @@ data class Prop(
             return "null"
         }
 
-        return when(type()) {
-            KType.STRING -> "\"\""
-            KType.INT -> "0"
-            KType.BOOLEAN -> "false"
-            KType.LOCAL_DATE -> "LocalDate.now()"
-            KType.LOCAL_TIME -> "LocalTime.now()"
-            KType.LOCAL_DATE_TIME -> "LocalDateTime.now()"
-            else -> ""
-        }
+        return type().defaultValue
     }
 }
 
