@@ -1,26 +1,24 @@
 package com.maeharin.factlin.core.schema
 
+import com.maeharin.factlin.core.dialect.Dialect
+import com.maeharin.factlin.core.dialect.MariadbDialect
+import com.maeharin.factlin.core.dialect.PostgresDialect
 import com.maeharin.factlin.gradle.FactlinExtension
 import java.sql.DatabaseMetaData
 import java.sql.DriverManager
 
 class SchemaRetriever(
-        val extension: FactlinExtension
+        val extension: FactlinExtension,
+        val dialect: Dialect
 ) {
-    lateinit var metadataConverter: MetadataConverter
-
     fun retrieve(): List<Table> {
-
-        when(extension.dbDialect) {
-            "postgres" -> {
+        when(dialect) {
+            is PostgresDialect -> {
                 Class.forName("org.postgresql.Driver")
-                metadataConverter = PostgresMetadataConverter()
             }
-            "mariadb" -> {
+            is MariadbDialect -> {
                 Class.forName("org.mariadb.jdbc.Driver")
-                metadataConverter = MariadbMetadataConverter()
             }
-            else -> throw Exception("dialect ${extension.dbDialect} is not supported")
         }
 
         val conn = DriverManager.getConnection(extension.dbUrl, extension.dbUser, extension.dbPassword)
@@ -68,17 +66,13 @@ class SchemaRetriever(
         val columns = ArrayList<Column>()
         while(colSet.next()) {
             val name = colSet.getString("COLUMN_NAME")
-            val type = colSet.getInt("DATA_TYPE")
-            val defaultValue = colSet.getString("COLUMN_DEF")?.let {
-                metadataConverter.convertDefaultValue(it, type)
-            }
 
             val column = Column(
                     name = name,
                     typeName = colSet.getString("TYPE_NAME"),
-                    type = type,
+                    type = colSet.getInt("DATA_TYPE"),
                     isNullable = colSet.getBoolean("NULLABLE"),
-                    defaultValue = defaultValue,
+                    defaultValue =  colSet.getString("COLUMN_DEF"),
                     isPrimaryKey = primaryKeyNames.contains(name),
                     comment = colSet.getString("REMARKS")
             )

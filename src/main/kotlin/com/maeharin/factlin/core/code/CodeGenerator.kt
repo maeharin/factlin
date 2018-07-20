@@ -2,6 +2,7 @@ package com.maeharin.factlin.core.code
 
 import com.maeharin.factlin.ErrorMessage
 import com.maeharin.factlin.FactlinException
+import com.maeharin.factlin.core.dialect.Dialect
 import com.maeharin.factlin.core.schema.Table
 import com.maeharin.factlin.util.toCamelCase
 import freemarker.template.Configuration
@@ -9,7 +10,8 @@ import java.io.*
 import java.sql.Types
 
 class CodeGenerator(
-        val table: Table
+        val table: Table,
+        val dialect: Dialect
 ) {
     fun generate() {
         val klass = _buildKlass()
@@ -61,7 +63,9 @@ class CodeGenerator(
                             name = columnMeta.name,
                             type = columnMeta.type,
                             typeName = columnMeta.typeName,
-                            defaultValue = columnMeta.defaultValue,
+                            defaultValue = columnMeta.defaultValue?.let {
+                                dialect.convertDefaultValue(it, columnMeta.type)
+                            },
                             isNullable = columnMeta.isNullable,
                             isPrimaryKey = columnMeta.isPrimaryKey,
                             comment = columnMeta.comment

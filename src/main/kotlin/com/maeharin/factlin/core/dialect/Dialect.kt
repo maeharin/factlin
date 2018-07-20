@@ -1,12 +1,12 @@
-package com.maeharin.factlin.core.schema
+package com.maeharin.factlin.core.dialect
 
 import java.sql.Types
 
-interface MetadataConverter {
+interface Dialect {
     fun convertDefaultValue(orig: String, type: Int): String?
 }
 
-class PostgresMetadataConverter: MetadataConverter {
+class PostgresDialect: Dialect {
     override fun convertDefaultValue(orig: String, type: Int): String? {
         return when {
             // todo
@@ -19,7 +19,7 @@ class PostgresMetadataConverter: MetadataConverter {
     }
 }
 
-class MariadbMetadataConverter: MetadataConverter {
+class MariadbDialect: Dialect {
     override fun convertDefaultValue(orig: String, type: Int): String? {
         return when {
             orig == "NULL" -> null
