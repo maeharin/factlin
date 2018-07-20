@@ -14,10 +14,6 @@ class CodeGenerator(
     fun generate() {
         val klass = _buildKlass()
 
-        println("generating klass ${klass.fileName()}....")
-        println("types: ${klass.props.map { it.type() }}")
-        println("imports: ${klass.imports()}")
-
         // template config
         // todo customize template path
         val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS).also {
@@ -196,22 +192,7 @@ data class Prop(
      */
     fun defaultValue(): Any {
         if (defaultValue != null) {
-            // todo: other pattern
-            // ('now'::text)::date
-            // 'G'::mpaa_rating
-            return when(defaultValue) {
-                is String -> when {
-                    defaultValue.startsWith("nextval(") -> "0"
-                    defaultValue == "now()" -> when(type()) {
-                        KType.LOCAL_DATE -> "LocalDate.now()"
-                        KType.LOCAL_TIME -> "LocalTime.now()"
-                        KType.LOCAL_DATE_TIME -> "LocalDateTime.now()"
-                        else -> "LocalDateTime.now()"
-                    }
-                    else -> defaultValue
-                }
-                else -> defaultValue
-            }
+            return defaultValue
         }
 
         if (isNullable) {

@@ -7,8 +7,21 @@ import java.sql.DriverManager
 class SchemaRetriever(
         val extension: FactlinExtension
 ) {
+    lateinit var metadataConverter: MetadataConverter
+
     fun retrieve(): List<Table> {
-        Class.forName("org.postgresql.Driver")
+
+        when(extension.dbDialect) {
+            "postgres" -> {
+                Class.forName("org.postgresql.Driver")
+                metadataConverter = PostgresMetadataConverter()
+            }
+            "mariadb" -> {
+                Class.forName("org.mariadb.jdbc.Driver")
+                metadataConverter = MariadbMetadataConverter()
+            }
+            else -> throw Exception("dialect ${extension.dbDialect} is not supported")
+        }
 
         val conn = DriverManager.getConnection(extension.dbUrl, extension.dbUser, extension.dbPassword)
 
@@ -55,17 +68,20 @@ class SchemaRetriever(
         val columns = ArrayList<Column>()
         while(colSet.next()) {
             val name = colSet.getString("COLUMN_NAME")
+            val type = colSet.getInt("DATA_TYPE")
+            val defaultValue = colSet.getString("COLUMN_DEF")?.let {
+                metadataConverter.convertDefaultValue(it, type)
+            }
 
             val column = Column(
                     name = name,
                     typeName = colSet.getString("TYPE_NAME"),
-                    type = colSet.getInt("DATA_TYPE"),
+                    type = type,
                     isNullable = colSet.getBoolean("NULLABLE"),
-                    defaultValue = colSet.getString("COLUMN_DEF"),
+                    defaultValue = defaultValue,
                     isPrimaryKey = primaryKeyNames.contains(name),
                     comment = colSet.getString("REMARKS")
             )
-
             columns.add(column)
         }
         colSet.close()
