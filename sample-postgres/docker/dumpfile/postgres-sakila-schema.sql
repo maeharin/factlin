@@ -12,7 +12,7 @@ SET escape_string_warning = off;
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
 --
 
-COMMENT ON SCHEMA public IS 'Standard public schemaretriever';
+COMMENT ON SCHEMA public IS 'Standard public schema';
 
 
 --
