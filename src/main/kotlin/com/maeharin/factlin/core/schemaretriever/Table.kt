@@ -1,4 +1,4 @@
-package com.maeharin.factlin.core.schema
+package com.maeharin.factlin.core.schemaretriever
 
 data class Table(
         val name: String,

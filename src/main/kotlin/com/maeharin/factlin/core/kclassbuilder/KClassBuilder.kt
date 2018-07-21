@@ -1,7 +1,7 @@
 package com.maeharin.factlin.core.kclassbuilder
 
 import com.maeharin.factlin.core.Dialect
-import com.maeharin.factlin.core.schema.Table
+import com.maeharin.factlin.core.schemaretriever.Table
 import java.sql.Types
 
 class KClassBuilder(

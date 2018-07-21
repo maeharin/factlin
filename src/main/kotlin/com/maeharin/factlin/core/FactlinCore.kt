@@ -1,8 +1,8 @@
 package com.maeharin.factlin.core
 
-import com.maeharin.factlin.core.code.CodeGenerator
+import com.maeharin.factlin.core.codegenerator.CodeGenerator
 import com.maeharin.factlin.core.kclassbuilder.KClassBuilder
-import com.maeharin.factlin.core.schema.SchemaRetriever
+import com.maeharin.factlin.core.schemaretriever.SchemaRetriever
 import com.maeharin.factlin.gradle.FactlinExtension
 
 enum class Dialect {

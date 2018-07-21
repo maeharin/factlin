@@ -1,4 +1,4 @@
-package com.maeharin.factlin.core.schema
+package com.maeharin.factlin.core.schemaretriever
 
 import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.gradle.FactlinExtension

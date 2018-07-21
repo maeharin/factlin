@@ -1,4 +1,4 @@
-package com.maeharin.factlin.core.code
+package com.maeharin.factlin.core.codegenerator
 
 import com.maeharin.factlin.ErrorMessage
 import com.maeharin.factlin.FactlinException
