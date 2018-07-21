@@ -33,7 +33,8 @@ data class KProp(
 
         return when {
             dv == "null" -> dv
-            type == KType.STRING -> "\"$dv\""
+            type == KType.STRING -> "\"${dv}\""
+            type == KType.BIG_DECIMAL -> "${dv}.toBigDecimal()"
             else -> dv
         }
     }

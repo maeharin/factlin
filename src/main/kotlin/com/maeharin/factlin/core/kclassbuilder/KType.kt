@@ -8,7 +8,7 @@ enum class KType(val shortName: String, val longName: String, val defaultValue: 
     LONG("Long", "Long", "0"),
     DOUBLE("Double", "Double", "0.0"),
     FLOAT("Float", "Float", "0F"),
-    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal", "0.toBigDecimal()"),
+    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal", "0"),
     STRING("String", "String", ""),
     LOCAL_DATE("LocalDate", "java.time.LocalDate", "LocalDate.now()"),
     LOCAL_TIME("LocalTime", "java.time.LocalTime", "LocalTime.now()"),
