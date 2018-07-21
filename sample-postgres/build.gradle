@@ -26,6 +26,9 @@ factlinGen {
     dbUser = "postgres"
     dbPassword = ""
     dbDialect = "postgres"
+    fixtureOutputDir = "src/test/kotlin/com/example/sample_postgres/fixtures"
+    fixturePackageName = "com.example.sample_postgres.fixtures"
+    fixtureTemplatePath = "src/test/resources/factlin/class_template.ftl"
 }
 
 repositories {
@@ -34,6 +37,11 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.postgresql:postgresql:42.1.4"
+
+    testCompile 'com.ninja-squad:DbSetup-kotlin:2.1.0'
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
 }
 
 compileKotlin {
@@ -41,4 +49,8 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+test {
+    useJUnitPlatform()
 }

@@ -5,7 +5,7 @@ open class FactlinExtension {
     var dbUser = ""
     var dbPassword = ""
     var dbDialect = ""
-    var fixtureOutputDir = "src/test/kotlin/factlin/fixtures"
-    var fixturePackageName = "factlin.fixtures"
+    var fixtureOutputDir = "src/test/kotlin/com/maeharin/factlin/fixtures"
+    var fixturePackageName = "com.maeharin.factlin.fixtures"
     var fixtureTemplatePath: String? = null
 }

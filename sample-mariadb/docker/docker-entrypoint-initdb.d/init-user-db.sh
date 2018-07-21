@@ -10,10 +10,13 @@ echo "create custom tables..."
 mysql -uroot -p${MYSQL_ROOT_PASSWORD} ${DB_NAME} -e "
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    job VARCHAR(255) NOT NULL  DEFAULT 'engineer',
-    status VARCHAR(256) NOT NULL DEFAULT 'ACTIVE',
-    age INT NOT NULL DEFAULT 30
-);
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY comment 'primary key',
+    name VARCHAR(255) NOT NULL comment 'name',
+    job VARCHAR(255) NOT NULL  DEFAULT 'engineer' comment 'job name',
+    status VARCHAR(256) NOT NULL DEFAULT 'ACTIVE' comment 'activate status',
+    age INT NOT NULL DEFAULT 30 comment 'age',
+    nick_name VARCHAR(256) comment 'nick name'
+)
+comment='user table'
+;
 "
