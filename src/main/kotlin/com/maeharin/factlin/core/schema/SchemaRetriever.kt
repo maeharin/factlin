@@ -1,8 +1,6 @@
 package com.maeharin.factlin.core.schema
 
-import com.maeharin.factlin.core.dialect.Dialect
-import com.maeharin.factlin.core.dialect.MariadbDialect
-import com.maeharin.factlin.core.dialect.PostgresDialect
+import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.gradle.FactlinExtension
 import java.sql.DatabaseMetaData
 import java.sql.DriverManager
@@ -13,10 +11,10 @@ class SchemaRetriever(
 ) {
     fun retrieve(): List<Table> {
         when(dialect) {
-            is PostgresDialect -> {
+            Dialect.POSTGRES -> {
                 Class.forName("org.postgresql.Driver")
             }
-            is MariadbDialect -> {
+            Dialect.MARIADB -> {
                 Class.forName("org.mariadb.jdbc.Driver")
             }
         }
