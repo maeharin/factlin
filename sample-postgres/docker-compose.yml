@@ -4,3 +4,6 @@ services:
     build: ./docker/
     ports:
       - 5432:5432
+    volumes:
+      - ./docker/dumpfile:/tmp/dumpfile
+

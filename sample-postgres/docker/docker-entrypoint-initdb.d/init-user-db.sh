@@ -1,10 +1,15 @@
 #!/bin/bash
 set -e
 
+echo "create database..."
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     CREATE DATABASE factlin;
 EOSQL
 
+echo "restore sakila schema..."
+psql -U postgres -d factlin < /tmp/dumpfile/postgres-sakila-schema.sql
+
+echo "create custom tables..."
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" factlin <<-EOSQL
     BEGIN;
 
