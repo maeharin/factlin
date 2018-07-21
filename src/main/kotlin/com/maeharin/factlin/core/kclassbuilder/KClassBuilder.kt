@@ -15,6 +15,7 @@ class KClassBuilder(
         }
 
         return KClass(
+                tableName = table.name,
                 name = table.name,
                 comment = table.comment ?: "",
                 schema = table.schema,
@@ -24,7 +25,7 @@ class KClassBuilder(
 
                     KProp(
                             tableName = table.name,
-                            name = columnMeta.name,
+                            columnName = columnMeta.name,
                             type = type,
                             typeName = columnMeta.typeName,
                             defaultValue = columnMeta.defaultValue?.let {

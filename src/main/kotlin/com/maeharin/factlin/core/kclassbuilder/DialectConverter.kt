@@ -12,10 +12,10 @@ class PostgresDialectConverter: DialectConverter {
             KType.STRING -> orig
             else -> {
                 when {
-                // todo
-                // ('now'::text)::date
-                // 'G'::mpaa_rating
+                    // todo
+                    // 'G'::mpaa_rating
                     orig == "now()" -> getDefaultTimeValueFromKType(type)
+                    orig == "('now'::text)::date" -> getDefaultTimeValueFromKType(type)
                     orig.startsWith("nextval(") -> "0"
                     else -> orig
                 }

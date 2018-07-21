@@ -4,7 +4,7 @@ import com.maeharin.factlin.util.toCamelCase
 
 data class KProp(
         val tableName: String,
-        private val name: String,
+        val columnName: String,
         val type: KType,
         private val typeName: String,
         private val defaultValue: Any?,
@@ -13,7 +13,9 @@ data class KProp(
         val comment: String?
 ) {
     fun name(): String {
-        return name.toCamelCase()
+        // todo optional to camel case
+        //return columnName.toCamelCase()
+        return columnName
     }
 
     /**

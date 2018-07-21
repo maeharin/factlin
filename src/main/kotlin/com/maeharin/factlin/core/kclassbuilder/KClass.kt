@@ -1,6 +1,7 @@
 package com.maeharin.factlin.core.kclassbuilder
 
 data class KClass(
+        val tableName: String,
         private val name: String,
         val comment: String,
         val schema: String?,
@@ -22,7 +23,10 @@ data class KClass(
             } else {
                 null
             }
-        }.filterNotNull().toSet()
+        }.filterNotNull()
+                .toSet()
+                .plus("import com.ninja_squad.dbsetup_kotlin.DbSetupBuilder")
+                .plus("import com.ninja_squad.dbsetup_kotlin.mappedValues")
     }
 }
 
