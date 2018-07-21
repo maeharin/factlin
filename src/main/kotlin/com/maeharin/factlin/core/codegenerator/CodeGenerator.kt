@@ -4,30 +4,34 @@ import com.maeharin.factlin.ErrorMessage
 import com.maeharin.factlin.FactlinException
 import com.maeharin.factlin.core.kclassbuilder.DialectConverter
 import com.maeharin.factlin.core.kclassbuilder.KClass
+import com.maeharin.factlin.gradle.FactlinExtension
 import freemarker.template.Configuration
+import freemarker.template.Template
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 
 class CodeGenerator(
+        val extension: FactlinExtension,
         val KClass: KClass
 ) {
     lateinit var dialectConverter: DialectConverter
 
     fun generate() {
         // template config
-        // todo customize template path
-        val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS).also {
-            it.setClassForTemplateLoading(javaClass, "/factlin")
+        val template: Template = if (extension.fixtureTemplatePath != null) {
+            val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS)
+            config.getTemplate(extension.fixtureTemplatePath)
+        } else {
+            val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS).also {
+                it.setClassForTemplateLoading(javaClass, "/factlin")
+            }
+            config.getTemplate("class.ftl")
         }
-        val template = config.getTemplate("class.ftl")
 
         // output config
-        // todo customize output dir
-        val dirPath = "src/test/kotlin/factlin/fixtures"
-        val packageName = "factlin.fixtures"
-        val dir = File(dirPath)
+        val dir = File(extension.fixtureOutputDir)
         if (dir.isFile) throw FactlinException(ErrorMessage.MustBeDir)
         if (!dir.exists()) {
             dir.mkdirs()
@@ -44,7 +48,7 @@ class CodeGenerator(
         // generate!
         try {
             val viewModel = mapOf(
-                    "packageName" to packageName,
+                    "packageName" to extension.fixturePackageName,
                     "kClass" to KClass
             )
             template.process(viewModel, writer)

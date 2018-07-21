@@ -29,7 +29,7 @@ data class FactlinCore(
 
         tables.forEach { table ->
             val klass = KClassBuilder(table, dialect).build()
-            CodeGenerator(klass).generate()
+            CodeGenerator(extension, klass).generate()
         }
     }
 }
