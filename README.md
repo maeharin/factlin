@@ -25,6 +25,11 @@ docker-compose up
 ./gradlew factlinGen
 ```
 
+```
+ ./gradlew build && (cd ./sample-postgres/ && ./gradlew --stacktrace --refresh-dependencies factlinGen)
+ ./gradlew build && (cd ./sample-mariadb/ && ./gradlew --stacktrace --refresh-dependencies factlinGen)
+```
+
 publish
 
 ```

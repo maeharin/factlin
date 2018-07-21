@@ -3,3 +3,4 @@
 build/
 .env
 sample-postgres/src/test/kotlin/
+sample-mariadb/src/test/kotlin/

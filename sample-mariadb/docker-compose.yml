@@ -1,0 +1,11 @@
+version: "3"
+services:
+  mariadb:
+    build: ./docker/
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/dumpfile:/tmp/dumpfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=test1234
+
