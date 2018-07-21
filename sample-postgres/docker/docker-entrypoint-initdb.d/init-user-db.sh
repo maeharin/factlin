@@ -16,6 +16,9 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" factlin <<-EOSQL
     CREATE TABLE users (
       code VARCHAR(256) PRIMARY KEY,
       name VARCHAR(256),
+      job VARCHAR(256) NOT NULL DEFAULT 'engineer',
+      status VARCHAR(256) NOT NULL DEFAULT 'ACTIVE',
+      age INTEGER NOT NULL DEFAULT 30,
       group_id VARCHAR(256),
       token BYTEA
     );

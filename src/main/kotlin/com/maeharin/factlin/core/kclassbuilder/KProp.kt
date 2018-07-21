@@ -21,15 +21,21 @@ data class KProp(
      * todo customizable
      */
     fun defaultValue(): Any {
-        if (defaultValue != null) {
-            return defaultValue
+        val dv = if (defaultValue != null) {
+            defaultValue
+        } else {
+            if (isNullable) {
+                "null"
+            } else {
+                type.defaultValue
+            }
         }
 
-        if (isNullable) {
-            return "null"
+        return when {
+            dv == "null" -> dv
+            type == KType.STRING -> "\"$dv\""
+            else -> dv
         }
-
-        return type.defaultValue
     }
 }
 

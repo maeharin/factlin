@@ -12,12 +12,8 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    age INT NOT NULL
+    job VARCHAR(255) NOT NULL  DEFAULT 'engineer',
+    status VARCHAR(256) NOT NULL DEFAULT 'ACTIVE',
+    age INT NOT NULL DEFAULT 30
 );
-
-insert into users (name, age) values ('hoge', 35);
-insert into users (name, age) values ('fuge', 30);
-insert into users (name, age) values ('piyo', 25);
-
-select * from users;
 "

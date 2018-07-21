@@ -6,19 +6,28 @@ interface DialectConverter {
 
 class PostgresDialectConverter: DialectConverter {
     override fun convertDefaultValue(orig: String, type: KType): String? {
-        return when {
-            // todo
-            // ('now'::text)::date
-            // 'G'::mpaa_rating
-            orig == "now()" -> getDefaultTimeValueFromKType(type)
-            orig.startsWith("nextval(") -> "0"
-            else -> orig
+        return when(type) {
+            // todo text
+            // 'engineer'::character varying
+            KType.STRING -> orig
+            else -> {
+                when {
+                // todo
+                // ('now'::text)::date
+                // 'G'::mpaa_rating
+                    orig == "now()" -> getDefaultTimeValueFromKType(type)
+                    orig.startsWith("nextval(") -> "0"
+                    else -> orig
+                }
+            }
         }
     }
 }
 
 class MariadbDialectConverter: DialectConverter {
     override fun convertDefaultValue(orig: String, type: KType): String? {
+        // todo text
+        // 'engineer'
         return when {
             orig == "NULL" -> null
             orig == "current_timestamp()" -> getDefaultTimeValueFromKType(type)
