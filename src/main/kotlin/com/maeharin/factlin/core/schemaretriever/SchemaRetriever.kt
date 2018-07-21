@@ -4,6 +4,7 @@ import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.gradle.FactlinExtension
 import java.sql.DatabaseMetaData
 import java.sql.DriverManager
+import java.util.*
 
 class SchemaRetriever(
         val extension: FactlinExtension,
@@ -19,7 +20,20 @@ class SchemaRetriever(
             }
         }
 
-        val conn = DriverManager.getConnection(extension.dbUrl, extension.dbUser, extension.dbPassword)
+        val conn = if (dialect == Dialect.MARIADB) {
+            val prop = Properties().also {
+                it.setProperty("user", extension.dbUser)
+                it.setProperty("password", extension.dbPassword)
+                // By default, mariadb jdbc driver treat tinyint(1) as Boolean
+                // We dont't treat tinyint(1) as Boolean.
+                // Because when 1 is provided as defaultValue, type mismatch,
+                // similar case: https://github.com/prestodb/presto/issues/5102
+                it.setProperty("tinyInt1isBit", "false")
+            }
+            DriverManager.getConnection(extension.dbUrl, prop)
+        } else {
+            DriverManager.getConnection(extension.dbUrl, extension.dbUser, extension.dbPassword)
+        }
 
         val metaData = conn.metaData
 
