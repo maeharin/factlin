@@ -26,6 +26,7 @@ class CodeGenerator(
         // output config
         // todo customize output dir
         val dirPath = "src/test/kotlin/factlin/fixtures"
+        val packageName = "factlin.fixtures"
         val dir = File(dirPath)
         if (dir.isFile) throw FactlinException(ErrorMessage.MustBeDir)
         if (!dir.exists()) {
@@ -42,7 +43,10 @@ class CodeGenerator(
 
         // generate!
         try {
-            val viewModel = mapOf("kClass" to KClass)
+            val viewModel = mapOf(
+                    "packageName" to packageName,
+                    "kClass" to KClass
+            )
             template.process(viewModel, writer)
             // debug
             //println(writer.toString())

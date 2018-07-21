@@ -1,5 +1,7 @@
 <#-- below comment is for intellij codegenerator completion -->
 <#-- @ftlvariable name="kClass" type="com.maeharin.factlin.core.kclassbuilder.KClass" -->
+package ${packageName}
+
 <#list kClass.imports() as import>
 ${import}
 </#list>
