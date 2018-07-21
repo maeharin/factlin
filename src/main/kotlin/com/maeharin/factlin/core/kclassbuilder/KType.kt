@@ -12,8 +12,7 @@ enum class KType(val shortName: String, val longName: String, val defaultValue: 
     STRING("String", "String", ""),
     LOCAL_DATE("LocalDate", "java.time.LocalDate", "LocalDate.now()"),
     LOCAL_TIME("LocalTime", "java.time.LocalTime", "LocalTime.now()"),
-    LOCAL_DATE_TIME("LocalDateTime", "java.time.LocalDateTime", "LocalDateTime.now()"),
-    UNKNOWN("[UNKNOWN]", "[UNKNOWN]", "[UNKNOWN]"),
+    LOCAL_DATE_TIME("LocalDateTime", "java.time.LocalDateTime", "LocalDateTime.now()")
 }
 
 

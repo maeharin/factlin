@@ -90,7 +90,7 @@ class KClassBuilder(
                 println("---------------------")
                 //println("unkown. [${tableName}.${name}] type: ${type}")
                 println("---------------------")
-                KType.UNKNOWN
+                KType.STRING
             }
         }
     }
