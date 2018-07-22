@@ -1,7 +1,7 @@
 package com.example.sample_postgres.dbtest
 
-import com.example.sample_postgres.fixtures.Users
-import com.example.sample_postgres.fixtures.insertUsers
+import com.example.sample_postgres.fixtures.UsersFixture
+import com.example.sample_postgres.fixtures.insertUsersFixture
 import com.ninja_squad.dbsetup.destination.DriverManagerDestination
 import com.ninja_squad.dbsetup_kotlin.dbSetup
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -37,7 +37,7 @@ class WithDbsetupTest{
     fun testInsertUser() {
         dbSetup(dest) {
             deleteAllFrom(listOf("users"))
-            insertUsers(Users())
+            insertUsersFixture(UsersFixture())
         }.launch()
         val stmt = dest.connection.createStatement()
         val rs = stmt.executeQuery("select * from users")

@@ -1,7 +1,5 @@
 package com.maeharin.factlin.core.kclassbuilder
 
-import com.maeharin.factlin.util.toCamelCase
-
 data class KProp(
         val tableName: String,
         val columnName: String,

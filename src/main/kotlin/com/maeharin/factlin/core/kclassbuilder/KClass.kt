@@ -1,5 +1,7 @@
 package com.maeharin.factlin.core.kclassbuilder
 
+import com.maeharin.factlin.ext.toCamelCase
+
 data class KClass(
         val tableName: String,
         private val name: String,
@@ -9,7 +11,7 @@ data class KClass(
         val props: List<KProp>
 ) {
     fun name(): String {
-        return name.capitalize()
+        return "${name.toCamelCase()}Fixture"
     }
 
     fun fileName(): String {
