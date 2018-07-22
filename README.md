@@ -2,7 +2,7 @@
 
 factlin is code generator (gradle plugin) for db connection test of Kotlin project.
 
-It Generate test fixture class and db insert methods helper (currentlly supported only dbsetup) from your existing database schema.
+It Generate test fixture class and db insert helper methods (currentlly supported only dbsetup) from your existing database schema.
 
 generated code is like this
 
@@ -30,7 +30,7 @@ fun DbSetupBuilder.insertUsersFixture(f: UsersFixture) {
 }
 ```
 
-using generated code
+usage of generated code
 
 ```kotlin
 dbSetup(dest) {
