@@ -10,8 +10,8 @@ generated code is like this
 data class UsersFixture (
     val id: Int = 0, // primary key
     val name: String = "", // name
-    val job: String = "'engineer'::character varying", // job name
-    val status: String = "'ACTIVE'::character varying", // activate status
+    val job: String = "", // job name
+    val status: String = "", // activate status
     val age: Int = 30, // age
     val nick_name: String? = null // nick name
 )

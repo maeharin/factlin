@@ -12,7 +12,7 @@ data class StaffFixture (
     val picture: Byte? = null, // 
     val email: String? = null, // 
     val store_id: Byte = 0, // 
-    val active: Byte = 1, // 
+    val active: Byte = 0, // 
     val username: String = "", // 
     val password: String? = null, // 
     val last_update: LocalDateTime = LocalDateTime.now() // 

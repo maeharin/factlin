@@ -11,7 +11,7 @@ data class CustomerFixture (
     val last_name: String = "", // 
     val email: String? = null, // 
     val address_id: Short = 0, // 
-    val active: Byte = 1, // 
+    val active: Byte = 0, // 
     val create_date: LocalDateTime = LocalDateTime.now(), // 
     val last_update: LocalDateTime = LocalDateTime.now() // 
 )

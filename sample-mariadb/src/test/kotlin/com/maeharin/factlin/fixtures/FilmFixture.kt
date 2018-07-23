@@ -13,11 +13,11 @@ data class FilmFixture (
     val release_year: LocalDate? = null, // 
     val language_id: Byte = 0, // 
     val original_language_id: Byte? = null, // 
-    val rental_duration: Byte = 3, // 
-    val rental_rate: BigDecimal = 4.99.toBigDecimal(), // 
+    val rental_duration: Byte = 0, // 
+    val rental_rate: BigDecimal = 0.toBigDecimal(), // 
     val length: Short? = null, // 
-    val replacement_cost: BigDecimal = 19.99.toBigDecimal(), // 
-    val rating: String? = "'G'", // 
+    val replacement_cost: BigDecimal = 0.toBigDecimal(), // 
+    val rating: String? = "", // 
     val special_features: String? = null, // 
     val last_update: LocalDateTime = LocalDateTime.now() // 
 )

@@ -68,8 +68,8 @@ class KClassBuilderTest {
                     assertEquals(false, p.isPrimaryKey)
                     assertEquals("job name", p.comment)
                     assertEquals("job", p.name())
-                    // todo fix this
-                    assertEquals("\"'engineer'::character varying\"", p.defaultValue())
+                    // todo enable to "engineer"
+                    assertEquals("\"\"", p.defaultValue())
                 },
                 {
                     val p = kClass.props[3]
@@ -79,8 +79,8 @@ class KClassBuilderTest {
                     assertEquals(false, p.isPrimaryKey)
                     assertEquals("activate status", p.comment)
                     assertEquals("status", p.name())
-                    // todo fix this
-                    assertEquals("\"'ACTIVE'::character varying\"", p.defaultValue())
+                    // todo enable to "ACTIVE"
+                    assertEquals("\"\"", p.defaultValue())
                 },
                 {
                     val p = kClass.props[4]
@@ -90,7 +90,8 @@ class KClassBuilderTest {
                     assertEquals(false, p.isPrimaryKey)
                     assertEquals("age", p.comment)
                     assertEquals("age", p.name())
-                    assertEquals("30", p.defaultValue())
+                    // todo enable to 30
+                    assertEquals("0", p.defaultValue())
                 },
                 {
                     val p = kClass.props[5]

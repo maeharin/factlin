@@ -22,7 +22,8 @@ data class KProp(
      */
     fun defaultValue(): Any {
         val dv = if (defaultValue != null) {
-            defaultValue
+            // todo optional to use database defaultValue
+            type.defaultValue
         } else {
             if (isNullable) {
                 "null"

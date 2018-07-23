@@ -14,7 +14,7 @@ data class StaffFixture (
     val address_id: Short = 0, 
     val email: String? = null, 
     val store_id: Short = 0, 
-    val active: Boolean = true, 
+    val active: Boolean = false, 
     val username: String = "", 
     val password: String? = null, 
     val last_update: LocalDateTime = LocalDateTime.now(), 

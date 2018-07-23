@@ -1,11 +1,11 @@
 package com.maeharin.factlin.core.kclassbuilder
 
-interface DialectConverter {
-    fun convertDefaultValue(orig: String, type: KType): String?
+interface DefaultValueBuilder {
+    fun build(orig: String, type: KType): String?
 }
 
-class PostgresDialectConverter: DialectConverter {
-    override fun convertDefaultValue(orig: String, type: KType): String? {
+class PostgresDefaultValueBuilder: DefaultValueBuilder {
+    override fun build(orig: String, type: KType): String? {
         return when(type) {
             // todo text
             // 'engineer'::character varying
@@ -24,8 +24,8 @@ class PostgresDialectConverter: DialectConverter {
     }
 }
 
-class MariadbDialectConverter: DialectConverter {
-    override fun convertDefaultValue(orig: String, type: KType): String? {
+class MariadbDefaultValueBuilder: DefaultValueBuilder {
+    override fun build(orig: String, type: KType): String? {
         // todo text
         // 'engineer'
         return when {

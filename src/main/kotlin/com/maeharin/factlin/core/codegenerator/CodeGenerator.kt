@@ -2,7 +2,6 @@ package com.maeharin.factlin.core.codegenerator
 
 import com.maeharin.factlin.ErrorMessage
 import com.maeharin.factlin.FactlinException
-import com.maeharin.factlin.core.kclassbuilder.DialectConverter
 import com.maeharin.factlin.core.kclassbuilder.KClass
 import com.maeharin.factlin.gradle.FactlinExtension
 import freemarker.template.Configuration
@@ -16,8 +15,6 @@ class CodeGenerator(
         val extension: FactlinExtension,
         val KClass: KClass
 ) {
-    lateinit var dialectConverter: DialectConverter
-
     fun generate() {
         // template config
         val template: Template = if (extension.fixtureTemplatePath != null) {
