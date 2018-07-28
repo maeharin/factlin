@@ -33,8 +33,11 @@ class CodeGenerator(
                 println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
                 println("cleanOutputDir...${dir}")
                 println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-                val isSuccess = dir.deleteRecursively()
-                if (!isSuccess) throw FactlinException(ErrorMessage.ErrorAtDeleteOutputDir)
+                if (dir.deleteRecursively()) {
+                    dir.mkdir()
+                } else {
+                    throw FactlinException(ErrorMessage.ErrorAtDeleteOutputDir)
+                }
             }
         } else {
             dir.mkdirs()
