@@ -17,7 +17,7 @@ data class CustomerFixture (
     val address_id: Short = 0, 
     val activebool: Boolean = false, 
     val create_date: LocalDate = LocalDate.now(), 
-    val last_update: LocalDateTime? = LocalDateTime.now(), 
+    val last_update: LocalDateTime? = null, 
     val active: Int? = null 
 )
 

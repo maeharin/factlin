@@ -1,18 +1,18 @@
 package com.maeharin.factlin.core.kclassbuilder
 
-enum class KType(val shortName: String, val longName: String, val defaultValue: String) {
-    BOOLEAN("Boolean", "Boolean", "false"),
-    BYTE("Byte", "Byte", "0"),
-    SHORT("Short", "Short", "0"),
-    INT("Int", "Int", "0"),
-    LONG("Long", "Long", "0"),
-    DOUBLE("Double", "Double", "0.0"),
-    FLOAT("Float", "Float", "0F"),
-    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal", "0"),
-    STRING("String", "String", ""),
-    LOCAL_DATE("LocalDate", "java.time.LocalDate", "LocalDate.now()"),
-    LOCAL_TIME("LocalTime", "java.time.LocalTime", "LocalTime.now()"),
-    LOCAL_DATE_TIME("LocalDateTime", "java.time.LocalDateTime", "LocalDateTime.now()")
+enum class KType(val shortName: String, val longName: String) {
+    BOOLEAN("Boolean", "Boolean"),
+    BYTE("Byte", "Byte"),
+    SHORT("Short", "Short"),
+    INT("Int", "Int"),
+    LONG("Long", "Long"),
+    DOUBLE("Double", "Double"),
+    FLOAT("Float", "Float"),
+    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal"),
+    STRING("String", "String"),
+    LOCAL_DATE("LocalDate", "java.time.LocalDate"),
+    LOCAL_TIME("LocalTime", "java.time.LocalTime"),
+    LOCAL_DATE_TIME("LocalDateTime", "java.time.LocalDateTime")
 }
 
 

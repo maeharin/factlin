@@ -19,7 +19,7 @@ data class FilmFixture (
     val rental_rate: BigDecimal = 0.toBigDecimal(), 
     val length: Short? = null, 
     val replacement_cost: BigDecimal = 0.toBigDecimal(), 
-    val rating: String? = "", 
+    val rating: String? = null, 
     val last_update: LocalDateTime = LocalDateTime.now(), 
     val special_features: String? = null, 
     val fulltext: String = "" 

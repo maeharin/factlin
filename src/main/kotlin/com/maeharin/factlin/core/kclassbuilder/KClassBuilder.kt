@@ -9,11 +9,6 @@ class KClassBuilder(
         val dialect: Dialect
 ) {
     fun build(): KClass {
-        val defaultValueBuilder = when(dialect) {
-            Dialect.POSTGRES -> PostgresDefaultValueBuilder()
-            Dialect.MARIADB -> MariadbDefaultValueBuilder()
-        }
-
         return KClass(
                 tableName = table.name,
                 name = table.name,
@@ -28,9 +23,13 @@ class KClassBuilder(
                             columnName = columnMeta.name,
                             type = type,
                             typeName = columnMeta.typeName,
-                            defaultValue = columnMeta.defaultValue?.let {
-                                defaultValueBuilder.build(it, type)
-                            },
+                            defaultValue = DefaultValueBuilder(
+                                    tableName = table.name,
+                                    columnName = columnMeta.name,
+                                    dbDefaultValue = columnMeta.defaultValue,
+                                    type = type,
+                                    isNullable = columnMeta.isNullable
+                            ).build(),
                             isNullable = columnMeta.isNullable,
                             isPrimaryKey = columnMeta.isPrimaryKey,
                             comment = columnMeta.comment
