@@ -2,11 +2,11 @@ package com.maeharin.factlin.core.kclassbuilder
 
 // todo customizeable
 class DefaultValueBuilder(
-        val tableName: String,
-        val columnName: String,
-        val dbDefaultValue: String?, // we don't use this currently
-        val type: KType,
-        val isNullable: Boolean
+        private val tableName: String,
+        private val columnName: String,
+        private val dbDefaultValue: String?, // we don't use this currently
+        private val type: KType,
+        private val isNullable: Boolean
 ) {
     fun build(): String {
         return if (isNullable) {
@@ -33,46 +33,4 @@ class DefaultValueBuilder(
         }
     }
 }
-
-
-//class PostgresDefaultValueBuilder: DefaultValueBuilder {
-//    override fun build(orig: String, type: KType): String? {
-//        return when(type) {
-//            // todo text
-//            // 'engineer'::character varying
-//            KType.STRING -> orig
-//            else -> {
-//                when {
-//                    // todo
-//                    // 'G'::mpaa_rating
-//                    orig == "now()" -> getDefaultTimeValueFromKType(type)
-//                    orig == "('now'::text)::date" -> getDefaultTimeValueFromKType(type)
-//                    orig.startsWith("nextval(") -> "0"
-//                    else -> orig
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//class MariadbDefaultValueBuilder: DefaultValueBuilder {
-//    override fun build(orig: String, type: KType): String? {
-//        // todo text
-//        // 'engineer'
-//        return when {
-//            orig == "NULL" -> null
-//            orig == "current_timestamp()" -> getDefaultTimeValueFromKType(type)
-//            else -> orig
-//        }
-//    }
-//}
-//
-//fun getDefaultTimeValueFromKType(type: KType): String {
-//    return when(type) {
-//        KType.LOCAL_DATE -> "LocalDate.now()"
-//        KType.LOCAL_TIME -> "LocalTime.now()"
-//        KType.LOCAL_DATE_TIME -> "LocalDateTime.now()"
-//        else -> throw Exception("invalid KType [${type}] for default timestamp value")
-//    }
-//}
 

@@ -43,7 +43,9 @@ class WithDbsetupTest{
         val rs = stmt.executeQuery("select * from users")
         assertTrue(rs.next())
         assertAll("users assertions",
-                { assertEquals("", rs.getString("name"))}
+                { assertEquals("", rs.getString("name"))},
+                { assertEquals("engineer", rs.getString("job"))},
+                { assertEquals("ACTIVE", rs.getString("status"))}
         )
     }
 }

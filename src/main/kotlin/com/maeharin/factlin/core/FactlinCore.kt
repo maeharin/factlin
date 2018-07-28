@@ -11,7 +11,7 @@ enum class Dialect {
 }
 
 data class FactlinCore(
-        val extension: FactlinExtension
+        private val extension: FactlinExtension
 ) {
     fun exec() {
         // todo use logger

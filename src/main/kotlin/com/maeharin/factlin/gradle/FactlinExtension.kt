@@ -11,4 +11,5 @@ open class FactlinExtension {
     var includeTables: List<String>? = null
     var excludeTables: List<String> = emptyList()
     var cleanOutputDir = false
+    var customDefaultValues: List<List<String>> = emptyList()
 }

@@ -7,8 +7,8 @@ import java.sql.DriverManager
 import java.util.*
 
 class SchemaRetriever(
-        val extension: FactlinExtension,
-        val dialect: Dialect
+        private val extension: FactlinExtension,
+        private val dialect: Dialect
 ) {
     fun retrieve(): List<Table> {
         when(dialect) {

@@ -15,9 +15,9 @@ import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 
 class CodeGenerator(
-        val extension: FactlinExtension,
-        val tables: List<Table>,
-        val dialect: Dialect
+        private val extension: FactlinExtension,
+        private val tables: List<Table>,
+        private val dialect: Dialect
 ) {
     private lateinit var dir: File
     private lateinit var template: Template
@@ -55,12 +55,12 @@ class CodeGenerator(
         }
 
         tables.forEach { table ->
-            val kClass = KClassBuilder(table, dialect).build()
-            _generateKlass(kClass)
+            val kClass = KClassBuilder(table, dialect, extension.customDefaultValues).build()
+            _generateCode(kClass)
         }
     }
 
-    private fun _generateKlass(KClass: KClass) {
+    private fun _generateCode(KClass: KClass) {
 
         val writer = BufferedWriter(
                 OutputStreamWriter(

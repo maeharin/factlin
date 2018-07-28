@@ -9,8 +9,8 @@ import com.ninja_squad.dbsetup_kotlin.mappedValues
 data class UsersFixture (
     val id: Int = 0, // primary key
     val name: String = "", // name
-    val job: String = "", // job name
-    val status: String = "", // activate status
+    val job: String = "engineer", // job name
+    val status: String = "ACTIVE", // activate status
     val age: Int = 0, // age
     val nick_name: String? = null // nick name
 )

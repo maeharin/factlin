@@ -5,8 +5,9 @@ import com.maeharin.factlin.core.schemaretriever.Table
 import java.sql.Types
 
 class KClassBuilder(
-        val table: Table,
-        val dialect: Dialect
+        private val table: Table,
+        private val dialect: Dialect,
+        private val customDefaultValues: List<List<String>>
 ) {
     fun build(): KClass {
         return KClass(
@@ -18,18 +19,23 @@ class KClassBuilder(
                 props = table.columns.map { columnMeta ->
                     val type = _buildKType(columnMeta.type)
 
+                    val customDefaultValue: String? = customDefaultValues.find {
+                        it[0] == table.name && it[1] == columnMeta.name
+                    }?.get(2)
+                    val defaultValue = customDefaultValue ?: DefaultValueBuilder(
+                            tableName = table.name,
+                            columnName = columnMeta.name,
+                            dbDefaultValue = columnMeta.defaultValue,
+                            type = type,
+                            isNullable = columnMeta.isNullable
+                    ).build()
+
                     KProp(
                             tableName = table.name,
                             columnName = columnMeta.name,
                             type = type,
                             typeName = columnMeta.typeName,
-                            defaultValue = DefaultValueBuilder(
-                                    tableName = table.name,
-                                    columnName = columnMeta.name,
-                                    dbDefaultValue = columnMeta.defaultValue,
-                                    type = type,
-                                    isNullable = columnMeta.isNullable
-                            ).build(),
+                            defaultValue = defaultValue,
                             isNullable = columnMeta.isNullable,
                             isPrimaryKey = columnMeta.isPrimaryKey,
                             comment = columnMeta.comment
@@ -87,9 +93,6 @@ class KClassBuilder(
                 //Types.NCLOB
                 //Types.SQLXML
                 //Types.REF_CURSOR
-                println("---------------------")
-                //println("unkown. [${tableName}.${name}] type: ${type}")
-                println("---------------------")
                 KType.STRING
             }
         }

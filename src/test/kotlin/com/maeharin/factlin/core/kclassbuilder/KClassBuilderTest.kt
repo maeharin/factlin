@@ -4,13 +4,16 @@ import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.core.schemaretriever.Column
 import com.maeharin.factlin.core.schemaretriever.Table
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 
 class KClassBuilderTest {
-    @Test
-    fun test_build_with_postgres_dialect() {
-        val table = Table(
+    private lateinit var table: Table
+
+    @BeforeEach
+    fun setup() {
+        table = Table(
                 name = "users",
                 comment = "user table",
                 schema = "public",
@@ -24,8 +27,12 @@ class KClassBuilderTest {
                         Column(name = "nick_name", type =12, typeName = "varchar", defaultValue = null, isNullable = true, isPrimaryKey = false, comment = "nick name")
                 )
         )
+    }
 
-        val kClass = KClassBuilder(table, Dialect.POSTGRES).build()
+    @Test
+    fun test_build_with_postgres_dialect() {
+
+        val kClass = KClassBuilder(table, Dialect.POSTGRES, emptyList()).build()
 
         assertAll(
                 "assert proper kClass",
@@ -102,6 +109,31 @@ class KClassBuilderTest {
                     assertEquals("nick name", p.comment)
                     assertEquals("nick_name", p.name())
                     assertEquals("null", p.defaultValue())
+                }
+        )
+    }
+
+    @Test
+    fun test_build_with_custom_defualt_values() {
+        val customDefaultValues = listOf(
+                listOf("users", "job", "\"engineer\""),
+                listOf("users", "status", "\"ACTIVE\""),
+                listOf("users", "age", "20")
+        )
+        val kClass = KClassBuilder(table, Dialect.POSTGRES, customDefaultValues).build()
+
+        assertAll(
+                {
+                    val p = kClass.props.find { it.columnName == "job" }!!
+                    assertEquals("\"engineer\"", p.defaultValue())
+                },
+                {
+                    val p = kClass.props.find { it.columnName == "status" }!!
+                    assertEquals("\"ACTIVE\"", p.defaultValue())
+                },
+                {
+                    val p = kClass.props.find { it.columnName == "age" }!!
+                    assertEquals("20", p.defaultValue())
                 }
         )
     }
