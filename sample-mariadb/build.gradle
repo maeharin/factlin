@@ -22,7 +22,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'kotlin'
 apply plugin: 'factlin'
 factlinGen {
-    dbUrl = "jdbc:mariadb://192.168.99.100/sakila"
+    dbUrl = System.getenv("FACTLIN_MARIA_DB_URL")
     dbUser = "root"
     dbPassword = "test1234"
     dbDialect = "mariadb"
