@@ -55,7 +55,13 @@ class CodeGenerator(
         }
 
         tables.forEach { table ->
-            val kClass = KClassBuilder(table, dialect, extension.customDefaultValues).build()
+            val kClass = KClassBuilder(
+                    table = table,
+                    dialect = dialect,
+                    customDefaultValues = extension.customDefaultValues,
+                    customTypeMapper = extension.customTypeMapper
+            ).build()
+
             _generateCode(kClass)
         }
     }

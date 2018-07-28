@@ -24,7 +24,8 @@ class KClassBuilderTest {
                         Column(name = "job", type =12, typeName = "varchar", defaultValue = "'engineer'::character varying", isNullable = false, isPrimaryKey = false, comment = "job name"),
                         Column(name = "status", type =12, typeName = "varchar", defaultValue = "'ACTIVE'::character varying", isNullable = false, isPrimaryKey = false, comment = "activate status"),
                         Column(name = "age", type =4, typeName = "int4", defaultValue = "30", isNullable = false, isPrimaryKey = false, comment = "age"),
-                        Column(name = "nick_name", type =12, typeName = "varchar", defaultValue = null, isNullable = true, isPrimaryKey = false, comment = "nick name")
+                        Column(name = "nick_name", type =12, typeName = "varchar", defaultValue = null, isNullable = true, isPrimaryKey = false, comment = "nick name"),
+                        Column(name = "my_custom_type_col", type =1111, typeName = "my_custom_type", defaultValue = null, isNullable = false, isPrimaryKey = false, comment = "my custom type column")
                 )
         )
     }
@@ -32,7 +33,7 @@ class KClassBuilderTest {
     @Test
     fun test_build_with_postgres_dialect() {
 
-        val kClass = KClassBuilder(table, Dialect.POSTGRES, emptyList()).build()
+        val kClass = KClassBuilder(table, Dialect.POSTGRES, emptyList(), emptyMap()).build()
 
         assertAll(
                 "assert proper kClass",
@@ -109,6 +110,16 @@ class KClassBuilderTest {
                     assertEquals("nick name", p.comment)
                     assertEquals("nick_name", p.name())
                     assertEquals("null", p.defaultValue())
+                },
+                {
+                    val p = kClass.props[6]
+                    assertEquals("my_custom_type_col", p.columnName)
+                    assertEquals(KType.STRING, p.type) // java.sql.Types.OTHER => STRING
+                    assertEquals(false, p.isNullable)
+                    assertEquals(false, p.isPrimaryKey)
+                    assertEquals("my custom type column", p.comment)
+                    assertEquals("my_custom_type_col", p.name())
+                    assertEquals("\"\"", p.defaultValue())
                 }
         )
     }
@@ -120,7 +131,7 @@ class KClassBuilderTest {
                 listOf("users", "status", "\"ACTIVE\""),
                 listOf("users", "age", "20")
         )
-        val kClass = KClassBuilder(table, Dialect.POSTGRES, customDefaultValues).build()
+        val kClass = KClassBuilder(table, Dialect.POSTGRES, customDefaultValues, emptyMap()).build()
 
         assertAll(
                 {
@@ -134,6 +145,21 @@ class KClassBuilderTest {
                 {
                     val p = kClass.props.find { it.columnName == "age" }!!
                     assertEquals("20", p.defaultValue())
+                }
+        )
+    }
+
+    @Test
+    fun test_build_with_custom_type_mapper() {
+        val customTypeMapper = mapOf<String, String>(
+                "my_custom_type" to "STRING"
+        )
+        val kClass = KClassBuilder(table, Dialect.POSTGRES, emptyList(), customTypeMapper).build()
+
+        assertAll(
+                {
+                    val p = kClass.props.find { it.columnName == "my_custom_type_col" }!!
+                    assertEquals(KType.STRING, p.type)
                 }
         )
     }

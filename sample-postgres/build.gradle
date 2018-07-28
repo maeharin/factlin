@@ -35,6 +35,9 @@ factlinGen {
         ["users", "job", "\"engineer\""],
         ["users", "status", "\"ACTIVE\""],
     ]
+    customTypeMapper = [
+        "year": "SHORT", // treat custom type [year] as SHORT
+    ]
 }
 
 repositories {

@@ -12,7 +12,7 @@ data class FilmFixture (
     val film_id: Int = 0, 
     val title: String = "", 
     val description: String? = null, 
-    val release_year: String? = null, 
+    val release_year: Short? = null, 
     val language_id: Short = 0, 
     val original_language_id: Short? = null, 
     val rental_duration: Short = 0, 

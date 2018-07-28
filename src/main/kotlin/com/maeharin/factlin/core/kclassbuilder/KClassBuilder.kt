@@ -1,5 +1,7 @@
 package com.maeharin.factlin.core.kclassbuilder
 
+import com.maeharin.factlin.ErrorMessage
+import com.maeharin.factlin.FactlinException
 import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.core.schemaretriever.Table
 import java.sql.Types
@@ -7,7 +9,8 @@ import java.sql.Types
 class KClassBuilder(
         private val table: Table,
         private val dialect: Dialect,
-        private val customDefaultValues: List<List<String>>
+        private val customDefaultValues: List<List<String>>,
+        private val customTypeMapper: Map<String, String>
 ) {
     fun build(): KClass {
         return KClass(
@@ -17,7 +20,7 @@ class KClassBuilder(
                 schema = table.schema,
                 catalog = table.catalog,
                 props = table.columns.map { columnMeta ->
-                    val type = _buildKType(columnMeta.type)
+                    val type = _buildKType(columnMeta.type, columnMeta.typeName)
 
                     val customDefaultValue: String? = customDefaultValues.find {
                         it[0] == table.name && it[1] == columnMeta.name
@@ -29,6 +32,8 @@ class KClassBuilder(
                             type = type,
                             isNullable = columnMeta.isNullable
                     ).build()
+
+                    println("${table.name}:${columnMeta} => type: ${type}, defaultValue: ${defaultValue}")
 
                     KProp(
                             tableName = table.name,
@@ -48,8 +53,11 @@ class KClassBuilder(
     /**
      * build prop's Kotlin type
      */
-    private fun _buildKType(type: Int): KType {
-        // todo customizable
+    private fun _buildKType(type: Int, typeName: String): KType {
+        customTypeMapper[typeName]?.let {
+            return KType.valueOf(it)
+        }
+
         return when (type) {
         // java.sql.Types => Kotlin type
         // see: https://docs.oracle.com/cd/E16338_01/java.112/b56281/datacc.htm#BHCJBJCC

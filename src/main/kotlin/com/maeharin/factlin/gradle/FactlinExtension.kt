@@ -12,4 +12,5 @@ open class FactlinExtension {
     var excludeTables: List<String> = emptyList()
     var cleanOutputDir = false
     var customDefaultValues: List<List<String>> = emptyList()
+    var customTypeMapper: Map<String, String> = emptyMap()
 }
