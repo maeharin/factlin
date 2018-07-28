@@ -38,21 +38,27 @@ class SchemaRetriever(
         val metaData = conn.metaData
 
         return _getTables(metaData)
-                .filter {table ->
-                    !extension.excludeTables.contains(table.name)
-                }
                 .map { table ->
                     table.copy(columns = _getColumns(metaData, table))
                 }
     }
 
     private fun _getTables(metaData: DatabaseMetaData): List<Table> {
-        // todo
+        // todo set schema
         val tableSet = metaData.getTables(null, null, "%", arrayOf("TABLE"))
 
         val tables = ArrayList<Table>()
 
         while (tableSet.next()) {
+            val tableName = tableSet.getString("TABLE_NAME")
+
+            val includeTables = extension.includeTables
+            if (includeTables != null) {
+                if (!includeTables.contains(tableName)) continue
+            }
+
+            if (extension.excludeTables.contains(tableName)) continue
+
             val table = Table(
                     name = tableSet.getString("TABLE_NAME"),
                     comment = tableSet.getString("REMARKS"),
