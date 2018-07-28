@@ -1,9 +1,0 @@
-version: "3"
-services:
-  postgres:
-    build: ./docker/
-    ports:
-      - 5432:5432
-    volumes:
-      - ./docker/dumpfile:/tmp/dumpfile
-

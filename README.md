@@ -190,13 +190,8 @@ unit test
 integration test
 
 ```
-cd sample-postgres
 docker-compose up
 
-cd sample-mariadb
-docker-compose up
-
-cd ..
 ./gradlew build && (cd ./sample-postgres/ && ./gradlew --stacktrace factlinGen && ./gradlew test)
 ./gradlew build && (cd ./sample-mariadb/ && ./gradlew --stacktrace factlinGen && ./gradlew test)
 ```
