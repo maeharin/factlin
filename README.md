@@ -191,9 +191,7 @@ integration test
 
 ```
 docker-compose up
-
-./gradlew build && (cd ./sample-postgres/ && ./gradlew --stacktrace factlinGen && ./gradlew test)
-./gradlew build && (cd ./sample-mariadb/ && ./gradlew --stacktrace factlinGen && ./gradlew test)
+./integration-test.sh
 ```
 
 ## publish
