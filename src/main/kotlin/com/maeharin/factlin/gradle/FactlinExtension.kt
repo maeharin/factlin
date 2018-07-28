@@ -8,4 +8,6 @@ open class FactlinExtension {
     var fixtureOutputDir = "src/test/kotlin/com/maeharin/factlin/fixtures"
     var fixturePackageName = "com.maeharin.factlin.fixtures"
     var fixtureTemplatePath: String? = null
+    var excludeTables: List<String> = emptyList()
+    var cleanOutputDir = false
 }

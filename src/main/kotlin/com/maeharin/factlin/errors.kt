@@ -7,4 +7,5 @@ class FactlinException(
 
 enum class ErrorMessage(val message: String) {
     MustBeDir("must be directory"),
+    ErrorAtDeleteOutputDir("error when deleting output dir"),
 }

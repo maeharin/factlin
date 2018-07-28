@@ -38,6 +38,9 @@ class SchemaRetriever(
         val metaData = conn.metaData
 
         return _getTables(metaData)
+                .filter {table ->
+                    !extension.excludeTables.contains(table.name)
+                }
                 .map { table ->
                     table.copy(columns = _getColumns(metaData, table))
                 }

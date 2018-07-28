@@ -27,17 +27,7 @@ data class FactlinCore(
 
         val tables = SchemaRetriever(extension, dialect).retrieve()
 
-        tables.forEach { table ->
-            println("------------------------------")
-            println("[${table.name}")
-            println(table)
-            table.columns.forEach { col ->
-                println(col)
-            }
-            println("-----j-------------------------")
-            val klass = KClassBuilder(table, dialect).build()
-            CodeGenerator(extension, klass).generate()
-        }
+        CodeGenerator(extension, tables, dialect).generate()
     }
 }
 

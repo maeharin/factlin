@@ -29,6 +29,8 @@ factlinGen {
     fixtureOutputDir = "src/test/kotlin/com/example/sample_postgres/fixtures"
     fixturePackageName = "com.example.sample_postgres.fixtures"
     fixtureTemplatePath = "src/test/resources/factlin/class_template.ftl"
+    excludeTables = ["payment_p2007_01", "payment_p2007_02", "payment_p2007_03", "payment_p2007_04", "payment_p2007_05", "payment_p2007_06"]
+    cleanOutputDir = true
 }
 
 repositories {
