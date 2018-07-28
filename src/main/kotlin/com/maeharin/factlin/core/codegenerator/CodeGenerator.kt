@@ -56,11 +56,11 @@ class CodeGenerator(
 
         tables.forEach { table ->
             val kClass = KClassBuilder(table, dialect).build()
-            _generateKlass(extension, kClass)
+            _generateKlass(kClass)
         }
     }
 
-    private fun _generateKlass(extension: FactlinExtension, KClass: KClass) {
+    private fun _generateKlass(KClass: KClass) {
 
         val writer = BufferedWriter(
                 OutputStreamWriter(
