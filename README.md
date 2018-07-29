@@ -1,10 +1,33 @@
 # factlin
 
-factlin is code generator (gradle plugin) for db connection test of Kotlin project.
+factlin is Kotlin test fixture generator from existing database schema.
 
-It Generate test fixture class and db insert helper methods (currentlly supported only dbsetup) from your existing database schema.
+This gradle plugin generate fixture factory class and insert helper method (currentlly support only Ninja-Squad/DbSetup)
 
-generated code is like this
+## example
+
+From this database schema
+
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(256) NOT NULL,
+  job VARCHAR(256) NOT NULL DEFAULT 'engineer',
+  status VARCHAR(256) NOT NULL DEFAULT 'ACTIVE',
+  age INTEGER NOT NULL DEFAULT 30,
+  nick_name VARCHAR(256)
+);
+
+COMMENT ON TABLE users IS 'user table';
+COMMENT ON COLUMN users.id IS 'primary key';
+COMMENT ON COLUMN users.name IS 'name';
+COMMENT ON COLUMN users.job IS 'job name';
+COMMENT ON COLUMN users.status IS 'activate status';
+COMMENT ON COLUMN users.age IS 'age';
+COMMENT ON COLUMN users.nick_name IS 'nick name';
+```
+
+Generated Kotlin code
 
 ```kotlin
 data class UsersFixture (
@@ -30,7 +53,7 @@ fun DbSetupBuilder.insertUsersFixture(f: UsersFixture) {
 }
 ```
 
-usage of generated code
+Use in your test (with [Ninja-Squad/DbSetup](https://github.com/Ninja-Squad/DbSetup))
 
 ```kotlin
 dbSetup(dest) {
