@@ -191,6 +191,7 @@ integration test
 
 ```
 docker-compose up
+./init-db.sh
 ./integration-test.sh
 ```
 
