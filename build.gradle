@@ -35,6 +35,10 @@ dependencies {
     // template engine
     compile "org.freemarker:freemarker:2.3.28"
 
+    // log
+    compile 'org.slf4j:slf4j-api:1.7.25'
+
+    // junit5
     testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
     testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
 }
@@ -48,6 +52,11 @@ compileTestKotlin {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
 }
 
 publishing {
