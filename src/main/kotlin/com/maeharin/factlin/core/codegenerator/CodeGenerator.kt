@@ -9,6 +9,7 @@ import com.maeharin.factlin.core.schemaretriever.Table
 import com.maeharin.factlin.gradle.FactlinExtension
 import freemarker.template.Configuration
 import freemarker.template.Template
+import org.slf4j.LoggerFactory
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileOutputStream
@@ -21,6 +22,7 @@ class CodeGenerator(
 ) {
     private lateinit var dir: File
     private lateinit var template: Template
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     fun generate() {
         // output config
@@ -30,9 +32,7 @@ class CodeGenerator(
 
         if (dir.exists()) {
             if (extension.cleanOutputDir) {
-                println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-                println("cleanOutputDir...${dir}")
-                println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+                logger.warn("cleanOutputDir...${dir}")
                 if (dir.deleteRecursively()) {
                     dir.mkdir()
                 } else {
@@ -74,8 +74,6 @@ class CodeGenerator(
                         "utf-8"
                 )
         )
-        // debug
-        //val writer = StringWriter()
 
         // generate!
         try {
@@ -84,8 +82,6 @@ class CodeGenerator(
                     "kClass" to KClass
             )
             template.process(viewModel, writer)
-            // debug
-            //println(writer.toString())
         } finally {
             writer.close()
         }

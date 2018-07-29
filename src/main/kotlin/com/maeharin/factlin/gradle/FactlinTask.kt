@@ -12,13 +12,14 @@ open class FactlinTask: DefaultTask() {
     fun factlinGenerate() {
         val factlinExtension = project.extensions.getByType(FactlinExtension::class.java)
 
-        println("=============================")
-        println("[project info]")
-        println("name: ${project.name}")
-        println("displayName: ${project.displayName}")
-        println("rootDir: ${project.rootDir}")
-        println("projectDir: ${project.projectDir}")
-        println("=============================")
+        logger.info("=============================")
+        logger.info("[project info]")
+        logger.info("name: ${project.name}")
+        logger.info("displayName: ${project.displayName}")
+        logger.info("rootDir: ${project.rootDir}")
+        logger.info("projectDir: ${project.projectDir}")
+        logger.info("factlinExtension: ${factlinExtension}")
+        logger.info("=============================")
 
         FactlinCore(factlinExtension).exec()
     }

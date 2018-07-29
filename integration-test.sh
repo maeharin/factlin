@@ -19,14 +19,14 @@ echo "FACTLIN_MARIA_DB_URL: ${FACTLIN_MARIA_DB_URL}"
 
 case $1 in
     postgres)
-        (cd ./sample-postgres/ && ./gradlew --stacktrace factlinGen && ./gradlew test)
+        (cd ./sample-postgres/ && ./gradlew --info --full-stacktrace factlinGen && ./gradlew test)
         ;;
     mariadb)
-        (cd ./sample-mariadb/ && ./gradlew --stacktrace factlinGen && ./gradlew test)
+        (cd ./sample-mariadb/ && ./gradlew --info --full-stacktrace factlinGen && ./gradlew test)
         ;;
     *)
-        (cd ./sample-postgres/ && ./gradlew --stacktrace factlinGen && ./gradlew test)
-        (cd ./sample-mariadb/ && ./gradlew --stacktrace factlinGen && ./gradlew test)
+        (cd ./sample-postgres/ && ./gradlew --info --full-stacktrace factlinGen && ./gradlew test)
+        (cd ./sample-mariadb/ && ./gradlew --info --full-stacktrace factlinGen && ./gradlew test)
         ;;
 esac
 

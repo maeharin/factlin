@@ -4,6 +4,7 @@ import com.maeharin.factlin.ErrorMessage
 import com.maeharin.factlin.FactlinException
 import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.core.schemaretriever.Table
+import org.slf4j.LoggerFactory
 import java.sql.Types
 
 class KClassBuilder(
@@ -12,6 +13,8 @@ class KClassBuilder(
         private val customDefaultValues: List<List<String>>,
         private val customTypeMapper: Map<String, String>
 ) {
+    val logger = LoggerFactory.getLogger(javaClass)
+
     fun build(): KClass {
         return KClass(
                 tableName = table.name,
@@ -33,7 +36,7 @@ class KClassBuilder(
                             isNullable = columnMeta.isNullable
                     ).build()
 
-                    println("${table.name}:${columnMeta} => type: ${type}, defaultValue: ${defaultValue}")
+                    logger.info("${table.name}:${columnMeta} => type: ${type}, defaultValue: ${defaultValue}")
 
                     KProp(
                             tableName = table.name,
