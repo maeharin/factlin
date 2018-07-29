@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 
 class WithDbsetupTest{
-    val dest = DriverManagerDestination("jdbc:postgresql://192.168.99.100/factlin", "postgres", "")
+    val url = System.getenv("FACTLIN_POSTGRES_DB_URL")
+    val dest = DriverManagerDestination(url, "postgres", "")
 
     init {
         Class.forName("org.postgresql.Driver")

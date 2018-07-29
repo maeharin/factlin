@@ -1,17 +1,13 @@
 version: "3"
 services:
   mariadb:
-    build: ./sample-mariadb/docker/
+    image: mariadb
     ports:
       - 3306:3306
-    volumes:
-      - ./sample-mariadb/docker/dumpfile:/tmp/dumpfile
     environment:
       - MYSQL_ROOT_PASSWORD=test1234
   postgres:
-    build: ./sample-postgres/docker/
+    image: postgres:9.5.3
     ports:
       - 5432:5432
-    volumes:
-      - ./sample-postgres/docker/dumpfile:/tmp/dumpfile
 

@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 
 class WithDbsetupTest {
-    val dest = DriverManagerDestination("jdbc:mariadb://192.168.99.100/sakila", "root", "test1234")
+    val url = System.getenv("FACTLIN_MARIA_DB_URL")
+    val dest = DriverManagerDestination(url, "root", "test1234")
 
     init {
         Class.forName("org.mariadb.jdbc.Driver")
