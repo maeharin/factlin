@@ -82,7 +82,7 @@ bintray {
         vcsUrl = 'https://github.com/maeharin/factlin'
         version {
             name = factlinVersion
-            desc = 'TODO unkown...'
+            desc = 'Kotlin test fixture generator from existing database schema'
         }
         publish = true // auto publish
     }
