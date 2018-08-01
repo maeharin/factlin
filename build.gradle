@@ -14,7 +14,7 @@ plugins {
     id "maven-publish"
 }
 
-def factlinVersion = '0.0.2'
+def factlinVersion = '0.0.3'
 
 group 'com.maeharin'
 version factlinVersion

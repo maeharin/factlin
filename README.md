@@ -91,7 +91,7 @@ buildscript {
         maven { url "https://dl.bintray.com/maeharin/factlin" }
     }
     dependencies {
-        classpath 'com.maeharin:factlin:0.0.2'
+        classpath 'com.maeharin:factlin:0.0.3'
         classpath "org.postgresql:postgresql:42.1.4"
     }
 }
