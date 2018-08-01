@@ -100,7 +100,7 @@ apply plugin: 'kotlin'
 
 // factlin config
 apply plugin: 'factlin'
-factlinGen {
+factlin {
     dbUrl = "jdbc:postgresql://{DB_HOST}/{DB_NAME}"
     dbUser = "{DB_USER}"
     dbPassword = "{DB_PASS}"
@@ -119,7 +119,7 @@ dependencies {
 generate codes
 
 ```
-./gradlew factlinGen
+./gradlew factlin
 ```
 
 use generated codes for your db connection test (ex: JUnit)
@@ -162,7 +162,7 @@ you can customize default behavior at build.gradle like this:
 
 ```gradle
 apply plugin: 'factlin'
-factlinGen {
+factlin {
     dbUrl = "jdbc:postgresql://{DB_HOST}/{DB_NAME}"
     
     dbUser = "{DB_USER}"

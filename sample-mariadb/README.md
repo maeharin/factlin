@@ -12,5 +12,5 @@ mysql -h $(docker-machine ip) -uroot -ptest1234 sakila
 ```
 
 ```
-./gradlew factlinGen
+./gradlew factlin
 ```

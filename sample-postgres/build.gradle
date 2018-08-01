@@ -21,7 +21,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'kotlin'
 apply plugin: 'factlin'
-factlinGen {
+factlin {
     dbUrl = System.getenv("FACTLIN_POSTGRES_DB_URL")
     dbUser = "postgres"
     dbPassword = ""
