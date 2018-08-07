@@ -241,5 +241,5 @@ docker-compose up
 ```
 // .env is secret
 source .env
-./gradlew build bintrayUpload --info
+./gradlew clean build bintrayUpload --info
 ```
