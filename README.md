@@ -88,7 +88,7 @@ build.gradle
 ```gradle
 buildscript {
     repositories {
-        maven { url "https://dl.bintray.com/maeharin/factlin" }
+        jcenter() // factlin is published at jcenter
     }
     dependencies {
         classpath 'com.maeharin:factlin:0.0.3'
