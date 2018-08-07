@@ -63,6 +63,8 @@ publishing {
     publications {
         MyPublication(MavenPublication) {
             from components.java
+            artifact sourcesJar
+            artifact javadocJar
             groupId 'com.maeharin'
             artifactId 'factlin'
             version factlinVersion
