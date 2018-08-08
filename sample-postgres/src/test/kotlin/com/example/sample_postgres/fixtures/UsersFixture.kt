@@ -3,16 +3,24 @@ package com.example.sample_postgres.fixtures
 // aaaaaaaaaaaaaaaa
 // bbbbbbbbbbbbbbbb
 
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.LocalDateTime
 import com.ninja_squad.dbsetup_kotlin.DbSetupBuilder
 import com.ninja_squad.dbsetup_kotlin.mappedValues
 
 data class UsersFixture (
     val id: Int = 0, // primary key
-    val name: String = "", // name
+    val name: String = "", // user name
     val job: String = "engineer", // job name
     val status: String = "ACTIVE", // activate status
-    val age: Int = 0, // age
-    val nick_name: String? = null // nick name
+    val age: Int = 0, // user age
+    val score: BigDecimal = 0.toBigDecimal(), // game score
+    val is_admin: Boolean = false, // user is admin user or not
+    val birth_day: LocalDate = LocalDate.now(), // user birth day
+    val nick_name: String? = null, // nick name
+    val created_timestamp: LocalDateTime = LocalDateTime.now(), 
+    val updated_timestamp: LocalDateTime? = null 
 )
 
 fun DbSetupBuilder.insertUsersFixture(f: UsersFixture) {
@@ -23,7 +31,12 @@ fun DbSetupBuilder.insertUsersFixture(f: UsersFixture) {
                 "job" to f.job,
                 "status" to f.status,
                 "age" to f.age,
-                "nick_name" to f.nick_name
+                "score" to f.score,
+                "is_admin" to f.is_admin,
+                "birth_day" to f.birth_day,
+                "nick_name" to f.nick_name,
+                "created_timestamp" to f.created_timestamp,
+                "updated_timestamp" to f.updated_timestamp
         )
     }
 }

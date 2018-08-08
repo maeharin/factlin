@@ -39,16 +39,24 @@ psql -h ${FACTLIN_POSTGRES_HOST} -U ${FACTLIN_POSTGRES_USER} ${FACTLIN_POSTGRES_
       name VARCHAR(256) NOT NULL,
       job VARCHAR(256) NOT NULL DEFAULT 'engineer',
       status VARCHAR(256) NOT NULL DEFAULT 'ACTIVE',
-      age INTEGER NOT NULL DEFAULT 30,
-      nick_name VARCHAR(256)
+      age INTEGER NOT NULL,
+      score NUMERIC NOT NULL,
+      is_admin BOOLEAN NOT NULL,
+      birth_day DATE NOT NULL,
+      nick_name VARCHAR(256),
+      created_timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+      updated_timestamp TIMESTAMP WITHOUT TIME ZONE
     );
 
     COMMENT ON TABLE users IS 'user table';
     COMMENT ON COLUMN users.id IS 'primary key';
-    COMMENT ON COLUMN users.name IS 'name';
+    COMMENT ON COLUMN users.name IS 'user name';
     COMMENT ON COLUMN users.job IS 'job name';
     COMMENT ON COLUMN users.status IS 'activate status';
-    COMMENT ON COLUMN users.age IS 'age';
+    COMMENT ON COLUMN users.age IS 'user age';
+    COMMENT ON COLUMN users.score IS 'game score';
+    COMMENT ON COLUMN users.is_admin IS 'user is admin user or not';
+    COMMENT ON COLUMN users.birth_day IS 'user birth day';
     COMMENT ON COLUMN users.nick_name IS 'nick name';
 EOSQL
 
@@ -65,11 +73,16 @@ mysql -h ${FACTLIN_MYSQL_HOST} -u${FACTLIN_MYSQL_USER} -p${FACTLIN_MYSQL_PASSWOR
     DROP TABLE IF EXISTS users;
     CREATE TABLE users (
         id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY comment 'primary key',
-        name VARCHAR(255) NOT NULL comment 'name',
+        name VARCHAR(255) NOT NULL comment 'user name',
         job VARCHAR(255) NOT NULL  DEFAULT 'engineer' comment 'job name',
         status VARCHAR(256) NOT NULL DEFAULT 'ACTIVE' comment 'activate status',
-        age INT NOT NULL DEFAULT 30 comment 'age',
-        nick_name VARCHAR(256) comment 'nick name'
+        age INT NOT NULL DEFAULT 30 comment 'user age',
+        score NUMERIC NOT NULL comment 'game score',
+        is_admin BOOLEAN NOT NULL comment 'is admin user or not',
+        birth_day DATE NOT NULL comment 'user birth day',
+        nick_name VARCHAR(256) comment 'user nick name',
+        created_timestamp DATETIME NOT NULL,
+        updated_timestamp DATETIME
     )
     comment='user table'
 ;

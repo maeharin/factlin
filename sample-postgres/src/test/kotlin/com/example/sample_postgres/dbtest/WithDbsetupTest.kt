@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class WithDbsetupTest{
     val url = System.getenv("FACTLIN_POSTGRES_DB_URL")
@@ -36,17 +38,45 @@ class WithDbsetupTest{
 
     @Test
     fun testInsertUser() {
+        val now = LocalDateTime.parse("2018-01-01T23:59:59")
+        val today = LocalDate.parse("2018-01-01")
+
         dbSetup(dest) {
             deleteAllFrom(listOf("users"))
-            insertUsersFixture(UsersFixture())
+            insertUsersFixture(UsersFixture(id = 1, name = "user1", birth_day = today, created_timestamp = now))
+            insertUsersFixture(UsersFixture(id = 2, name = "user2", birth_day = today, is_admin = true, created_timestamp = now))
         }.launch()
         val stmt = dest.connection.createStatement()
-        val rs = stmt.executeQuery("select * from users")
+        val rs = stmt.executeQuery("select * from users order by id asc")
+
         assertTrue(rs.next())
         assertAll("users assertions",
-                { assertEquals("", rs.getString("name"))},
+                { assertEquals(1, rs.getInt("id"))},
+                { assertEquals("user1", rs.getString("name"))},
                 { assertEquals("engineer", rs.getString("job"))},
-                { assertEquals("ACTIVE", rs.getString("status"))}
+                { assertEquals("ACTIVE", rs.getString("status"))},
+                { assertEquals(0, rs.getInt("age"))},
+                { assertEquals(0.toBigDecimal(), rs.getBigDecimal("score"))},
+                { assertEquals(false, rs.getBoolean("is_admin"))},
+                { assertEquals(java.sql.Date.valueOf(today), rs.getDate("birth_day"))},
+                { assertEquals(null, rs.getString("nick_name"))},
+                { assertEquals(now, rs.getTimestamp("created_timestamp").toLocalDateTime())},
+                { assertEquals(null, rs.getTimestamp("updated_timestamp"))}
+        )
+
+        assertTrue(rs.next())
+        assertAll("users assertions",
+                { assertEquals(2, rs.getInt("id"))},
+                { assertEquals("user2", rs.getString("name"))},
+                { assertEquals("engineer", rs.getString("job"))},
+                { assertEquals("ACTIVE", rs.getString("status"))},
+                { assertEquals(0, rs.getInt("age"))},
+                { assertEquals(0.toBigDecimal(), rs.getBigDecimal("score"))},
+                { assertEquals(true, rs.getBoolean("is_admin"))},
+                { assertEquals(java.sql.Date.valueOf(today), rs.getDate("birth_day"))},
+                { assertEquals(null, rs.getString("nick_name"))},
+                { assertEquals(now, rs.getTimestamp("created_timestamp").toLocalDateTime())},
+                { assertEquals(null, rs.getTimestamp("updated_timestamp"))}
         )
     }
 }
