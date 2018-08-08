@@ -14,16 +14,24 @@ CREATE TABLE users (
   name VARCHAR(256) NOT NULL,
   job VARCHAR(256) NOT NULL DEFAULT 'engineer',
   status VARCHAR(256) NOT NULL DEFAULT 'ACTIVE',
-  age INTEGER NOT NULL DEFAULT 30,
-  nick_name VARCHAR(256)
+  age INTEGER NOT NULL,
+  score NUMERIC NOT NULL,
+  is_admin BOOLEAN NOT NULL,
+  birth_day DATE NOT NULL,
+  nick_name VARCHAR(256),
+  created_timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  updated_timestamp TIMESTAMP WITHOUT TIME ZONE
 );
 
 COMMENT ON TABLE users IS 'user table';
 COMMENT ON COLUMN users.id IS 'primary key';
-COMMENT ON COLUMN users.name IS 'name';
+COMMENT ON COLUMN users.name IS 'user name';
 COMMENT ON COLUMN users.job IS 'job name';
 COMMENT ON COLUMN users.status IS 'activate status';
-COMMENT ON COLUMN users.age IS 'age';
+COMMENT ON COLUMN users.age IS 'user age';
+COMMENT ON COLUMN users.score IS 'game score';
+COMMENT ON COLUMN users.is_admin IS 'user is admin user or not';
+COMMENT ON COLUMN users.birth_day IS 'user birth day';
 COMMENT ON COLUMN users.nick_name IS 'nick name';
 ```
 
@@ -32,11 +40,16 @@ Generated Kotlin code is like this
 ```kotlin
 data class UsersFixture (
     val id: Int = 0, // primary key
-    val name: String = "", // name
+    val name: String = "", // user name
     val job: String = "", // job name
     val status: String = "", // activate status
-    val age: Int = 0, // age
-    val nick_name: String? = null // nick name
+    val age: Int = 0, // user age
+    val score: BigDecimal = 0.toBigDecimal(), // game score
+    val is_admin: Boolean = false, // user is admin user or not
+    val birth_day: LocalDate = LocalDate.now(), // user birth day
+    val nick_name: String? = null, // nick name
+    val created_timestamp: LocalDateTime = LocalDateTime.now(), 
+    val updated_timestamp: LocalDateTime? = null 
 )
 
 fun DbSetupBuilder.insertUsersFixture(f: UsersFixture) {
@@ -47,7 +60,12 @@ fun DbSetupBuilder.insertUsersFixture(f: UsersFixture) {
                 "job" to f.job,
                 "status" to f.status,
                 "age" to f.age,
-                "nick_name" to f.nick_name
+                "score" to f.score,
+                "is_admin" to f.is_admin,
+                "birth_day" to f.birth_day,
+                "nick_name" to f.nick_name,
+                "created_timestamp" to f.created_timestamp,
+                "updated_timestamp" to f.updated_timestamp
         )
     }
 }
@@ -60,9 +78,12 @@ dbSetup(dest) {
     deleteAllFrom(listOf("users")) 
     
     // using generated codes. this codes insert datas to your database
-    insertUsersFixture(UsersFixture(name = "foo"))
-    insertUsersFixture(UsersFixture(name = "bar"))
+    insertUsersFixture(UsersFixture(id = 1, name = "user1"))
+    insertUsersFixture(UsersFixture(id = 2, name = "user2", is_admin = true))
 }.launch()
+
+
+...your db test
 ```
 
 ## benefit
