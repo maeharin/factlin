@@ -46,7 +46,7 @@ class KClassBuilder(
                             defaultValue = defaultValue,
                             isNullable = columnMeta.isNullable,
                             isPrimaryKey = columnMeta.isPrimaryKey,
-                            comment = columnMeta.comment
+                            comment = columnMeta.comment?.replace("\r\n|\r|\n".toRegex(), " ")
                     )
                 }
         )

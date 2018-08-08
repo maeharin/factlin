@@ -54,7 +54,7 @@ psql -h ${FACTLIN_POSTGRES_HOST} -U ${FACTLIN_POSTGRES_USER} ${FACTLIN_POSTGRES_
     COMMENT ON COLUMN users.job IS 'job name';
     COMMENT ON COLUMN users.status IS 'activate status';
     COMMENT ON COLUMN users.age IS 'user age';
-    COMMENT ON COLUMN users.score IS 'game score';
+    COMMENT ON COLUMN users.score IS E'game score\nlong long\ncomment...';
     COMMENT ON COLUMN users.is_admin IS 'user is admin user or not';
     COMMENT ON COLUMN users.birth_day IS 'user birth day';
     COMMENT ON COLUMN users.nick_name IS 'nick name';

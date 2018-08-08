@@ -15,7 +15,7 @@ data class UsersFixture (
     val job: String = "engineer", // job name
     val status: String = "ACTIVE", // activate status
     val age: Int = 0, // user age
-    val score: BigDecimal = 0.toBigDecimal(), // game score
+    val score: BigDecimal = 0.toBigDecimal(), // game score long long comment...
     val is_admin: Boolean = false, // user is admin user or not
     val birth_day: LocalDate = LocalDate.now(), // user birth day
     val nick_name: String? = null, // nick name

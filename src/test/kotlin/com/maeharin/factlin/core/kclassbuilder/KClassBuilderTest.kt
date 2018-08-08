@@ -20,7 +20,7 @@ class KClassBuilderTest {
                 catalog = null,
                 columns = listOf(
                         Column(name = "id", type =4, typeName = "serial", defaultValue = "nextval('users_id_seq'::regclass)", isNullable = false, isPrimaryKey = true, comment = "primary key"),
-                        Column(name = "name", type =12, typeName = "varchar", defaultValue = null, isNullable = false, isPrimaryKey = false, comment = "name"),
+                        Column(name = "name", type =12, typeName = "varchar", defaultValue = null, isNullable = false, isPrimaryKey = false, comment = "name\nlong\r\nlong\rcomment"),
                         Column(name = "job", type =12, typeName = "varchar", defaultValue = "'engineer'::character varying", isNullable = false, isPrimaryKey = false, comment = "job name"),
                         Column(name = "status", type =12, typeName = "varchar", defaultValue = "'ACTIVE'::character varying", isNullable = false, isPrimaryKey = false, comment = "activate status"),
                         Column(name = "age", type =4, typeName = "int4", defaultValue = "30", isNullable = false, isPrimaryKey = false, comment = "age"),
@@ -64,7 +64,7 @@ class KClassBuilderTest {
                     assertEquals(KType.STRING, p.type)
                     assertEquals(false, p.isNullable)
                     assertEquals(false, p.isPrimaryKey)
-                    assertEquals("name", p.comment)
+                    assertEquals("name long long comment", p.comment)
                     assertEquals("name", p.name())
                     assertEquals("\"\"", p.defaultValue())
                 },
