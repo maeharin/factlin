@@ -8,7 +8,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // factlin
-        classpath files("../build/libs/factlin-0.1.0.jar")
+        classpath files("../build/libs/factlin-0.1.1.jar")
         classpath "org.freemarker:freemarker:2.3.28"
 
         // mariadb
