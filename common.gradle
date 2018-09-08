@@ -1,0 +1,11 @@
+ext {
+    kotlin_version = "1.2.51"
+    factlin_version = "0.1.1"
+    freemarker_version = "2.3.28"
+    slf4_version = "1.7.25"
+    junit5_version = "5.2.0"
+    postgresql_version = "42.1.4"
+    mariadb_version = "2.1.2"
+    dbsetup_version = "2.1.0"
+}
+
