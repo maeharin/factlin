@@ -1,3 +1,4 @@
 sample-mariadb/* linguist-documentation
 sample-postgres/* linguist-documentation
+sample-postgres-schema/* linguist-documentation
 sample-schema/* linguist-documentation

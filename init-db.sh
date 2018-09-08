@@ -58,6 +58,17 @@ psql -h ${FACTLIN_POSTGRES_HOST} -U ${FACTLIN_POSTGRES_USER} ${FACTLIN_POSTGRES_
     COMMENT ON COLUMN users.is_admin IS 'user is admin user or not';
     COMMENT ON COLUMN users.birth_day IS 'user birth day';
     COMMENT ON COLUMN users.nick_name IS 'nick name';
+
+    CREATE SCHEMA other_schema;
+    CREATE TABLE other_schema.users (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(256) NOT NULL
+    );
+
+    CREATE TABLE other_schema.article (
+        id serial primary key,
+        title varchar(256) not null
+    );
 EOSQL
 
 

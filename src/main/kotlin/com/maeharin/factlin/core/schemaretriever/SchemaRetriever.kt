@@ -44,8 +44,7 @@ class SchemaRetriever(
     }
 
     private fun _getTables(metaData: DatabaseMetaData): List<Table> {
-        // todo set schema
-        val tableSet = metaData.getTables(null, null, "%", arrayOf("TABLE"))
+        val tableSet = metaData.getTables(null, extension.schema, "%", arrayOf("TABLE"))
 
         val tables = ArrayList<Table>()
 
@@ -83,7 +82,7 @@ class SchemaRetriever(
         }
         primaryKeySet.close()
 
-        val colSet = metaData.getColumns(null, null, table.name, "%")
+        val colSet = metaData.getColumns(null, table.schema, table.name, "%")
         val columns = ArrayList<Column>()
         while(colSet.next()) {
             val name = colSet.getString("COLUMN_NAME")
