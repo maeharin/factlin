@@ -1,7 +1,5 @@
 package com.maeharin.factlin.core.kclassbuilder
 
-import com.maeharin.factlin.ErrorMessage
-import com.maeharin.factlin.FactlinException
 import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.core.schemaretriever.Table
 import org.slf4j.LoggerFactory
@@ -17,8 +15,20 @@ class KClassBuilder(
 
     fun build(): KClass {
         return KClass(
-                tableName = table.name,
-                name = table.name,
+                tableName = {
+                    if (_isDefaultSchema()) {
+                        table.name
+                    } else {
+                        "${table.schema}.${table.name}"
+                    }
+                }(),
+                name = {
+                    if (_isDefaultSchema()) {
+                        table.name
+                    } else {
+                        "${table.schema}${table.name.capitalize()}"
+                    }
+                }(),
                 comment = table.comment ?: "",
                 schema = table.schema,
                 catalog = table.catalog,
@@ -109,4 +119,10 @@ class KClassBuilder(
         }
     }
 
+    private fun _isDefaultSchema(): Boolean {
+        if (dialect != Dialect.POSTGRES) return true
+
+        // postgres
+        return table.schema == "public"
+    }
 }

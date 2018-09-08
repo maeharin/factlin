@@ -1,6 +1,8 @@
 package com.example.sample_postgres.dbtest
 
+import com.example.sample_postgres.fixtures.OtherSchemaUsersFixture
 import com.example.sample_postgres.fixtures.UsersFixture
+import com.example.sample_postgres.fixtures.insertOtherSchemaUsersFixture
 import com.example.sample_postgres.fixtures.insertUsersFixture
 import com.ninja_squad.dbsetup.destination.DriverManagerDestination
 import com.ninja_squad.dbsetup_kotlin.dbSetup
@@ -77,6 +79,29 @@ class WithDbsetupTest{
                 { assertEquals(null, rs.getString("nick_name"))},
                 { assertEquals(now, rs.getTimestamp("created_timestamp").toLocalDateTime())},
                 { assertEquals(null, rs.getTimestamp("updated_timestamp"))}
+        )
+    }
+
+    @Test
+    fun `test other schema`() {
+        dbSetup(dest) {
+            deleteAllFrom(listOf("other_schema.users"))
+            insertOtherSchemaUsersFixture(OtherSchemaUsersFixture(id = 1, name = "user1"))
+            insertOtherSchemaUsersFixture(OtherSchemaUsersFixture(id = 2, name = "user2"))
+        }.launch()
+        val stmt = dest.connection.createStatement()
+        val rs = stmt.executeQuery("select * from other_schema.users order by id asc")
+
+        assertTrue(rs.next())
+        assertAll("user1",
+                { assertEquals(1, rs.getInt("id")) },
+                { assertEquals("user1", rs.getString("name")) }
+        )
+
+        assertTrue(rs.next())
+        assertAll("user2",
+                { assertEquals(2, rs.getInt("id")) },
+                { assertEquals("user2", rs.getString("name")) }
         )
     }
 }

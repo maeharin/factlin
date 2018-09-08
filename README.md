@@ -233,6 +233,11 @@ factlin {
     customTypeMapper = [
         "year": "SHORT", // treat custom type [year] as SHORT
     ]
+    
+    // name of target database schema
+    // this is not working for no schema support database(ex: mariadb, mysql...)
+    // default: null (include all schemas)
+    schema = "public"
 }
 ```
 

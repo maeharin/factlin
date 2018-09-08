@@ -18,6 +18,9 @@ echo "FACTLIN_POSTGRES_DB_URL: ${FACTLIN_POSTGRES_DB_URL}"
 echo "FACTLIN_MARIA_DB_URL: ${FACTLIN_MARIA_DB_URL}"
 
 case $1 in
+    postgres-schema)
+        (cd ./sample-postgres-schema/ && ./gradlew --info --full-stacktrace factlin && ./gradlew test)
+        ;;
     postgres)
         (cd ./sample-postgres/ && ./gradlew --info --full-stacktrace factlin && ./gradlew test)
         ;;
@@ -25,6 +28,7 @@ case $1 in
         (cd ./sample-mariadb/ && ./gradlew --info --full-stacktrace factlin && ./gradlew test)
         ;;
     *)
+        (cd ./sample-postgres-schema/ && ./gradlew --info --full-stacktrace factlin && ./gradlew test)
         (cd ./sample-postgres/ && ./gradlew --info --full-stacktrace factlin && ./gradlew test)
         (cd ./sample-mariadb/ && ./gradlew --info --full-stacktrace factlin && ./gradlew test)
         ;;
