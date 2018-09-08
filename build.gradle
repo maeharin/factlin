@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.51'
+    apply from:"common.gradle"
 
     repositories {
         mavenCentral()
@@ -14,10 +14,8 @@ plugins {
     id "maven-publish"
 }
 
-def factlinVersion = '0.1.1'
-
 group 'com.maeharin'
-version factlinVersion
+version factlin_version
 
 apply plugin: 'kotlin'
 
@@ -33,14 +31,14 @@ dependencies {
     compile gradleApi()
 
     // template engine
-    compile "org.freemarker:freemarker:2.3.28"
+    compile "org.freemarker:freemarker:$freemarker_version"
 
     // log
-    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile "org.slf4j:slf4j-api:$slf4_version"
 
     // junit5
-    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
-    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+    testCompile("org.junit.jupiter:junit-jupiter-api:$junit5_version")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:$junit5_version")
 }
 
 compileKotlin {
@@ -67,7 +65,7 @@ publishing {
             artifact javadocJar
             groupId 'com.maeharin'
             artifactId 'factlin'
-            version factlinVersion
+            version factlin_version
         }
     }
 }
@@ -83,7 +81,7 @@ bintray {
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/maeharin/factlin'
         version {
-            name = factlinVersion
+            name = factlin_version
             desc = 'Kotlin test fixture generator from existing database schema'
         }
         publish = true // auto publish
