@@ -1,5 +1,5 @@
 ext {
-    factlin_version = "0.2.0"
+    factlin_version = "0.3.0"
     kotlin_version = "1.2.51"
     freemarker_version = "2.3.28"
     slf4_version = "1.7.25"
