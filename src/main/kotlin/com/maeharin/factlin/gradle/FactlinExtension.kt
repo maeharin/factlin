@@ -14,4 +14,5 @@ open class FactlinExtension {
     var customDefaultValues: List<List<String>> = emptyList()
     var customTypeMapper: Map<String, String> = emptyMap()
     var schema: String? = null
+    var useCamelCase = false
 }

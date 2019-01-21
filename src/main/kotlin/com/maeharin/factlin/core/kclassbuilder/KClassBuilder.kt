@@ -2,6 +2,7 @@ package com.maeharin.factlin.core.kclassbuilder
 
 import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.core.schemaretriever.Table
+import com.maeharin.factlin.ext.toCamelCase
 import org.slf4j.LoggerFactory
 import java.sql.Types
 
@@ -9,7 +10,8 @@ class KClassBuilder(
         private val table: Table,
         private val dialect: Dialect,
         private val customDefaultValues: List<List<String>>,
-        private val customTypeMapper: Map<String, String>
+        private val customTypeMapper: Map<String, String>,
+        private val useCamelCase: Boolean
 ) {
     val logger = LoggerFactory.getLogger(javaClass)
 
@@ -50,6 +52,7 @@ class KClassBuilder(
 
                     KProp(
                             tableName = table.name,
+                            name = if(useCamelCase) columnMeta.name.toCamelCase(isCapitalizeFirstChar = false) else columnMeta.name,
                             columnName = columnMeta.name,
                             type = type,
                             typeName = columnMeta.typeName,

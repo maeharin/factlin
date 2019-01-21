@@ -59,7 +59,8 @@ class CodeGenerator(
                     table = table,
                     dialect = dialect,
                     customDefaultValues = extension.customDefaultValues,
-                    customTypeMapper = extension.customTypeMapper
+                    customTypeMapper = extension.customTypeMapper,
+                    useCamelCase = extension.useCamelCase
             ).build()
 
             _generateCode(kClass)
