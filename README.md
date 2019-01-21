@@ -1,3 +1,4 @@
+ [ ![Download](https://api.bintray.com/packages/maeharin/factlin/factlin/images/download.svg) ](https://bintray.com/maeharin/factlin/factlin/_latestVersion)
 [![CircleCI](https://circleci.com/gh/maeharin/factlin/tree/master.svg?style=svg)](https://circleci.com/gh/maeharin/factlin/tree/master)
 [![codecov](https://codecov.io/gh/maeharin/factlin/branch/master/graph/badge.svg)](https://codecov.io/gh/maeharin/factlin)
 
