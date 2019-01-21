@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/maeharin/factlin/tree/master.svg?style=svg)](https://circleci.com/gh/maeharin/factlin/tree/master)
+
 # factlin
 
 factlin is Kotlin test fixture generator from existing database schema.
