@@ -11,6 +11,14 @@ data class KProp(
         val isPrimaryKey: Boolean,
         val comment: String?
 ) {
+
+    /**
+     * for backward compatibility
+     */
+    fun name(): String {
+        return name
+    }
+
     /**
      * build default value
      * todo customizable
