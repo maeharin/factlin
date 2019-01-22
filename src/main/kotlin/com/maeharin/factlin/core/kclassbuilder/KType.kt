@@ -14,5 +14,3 @@ enum class KType(val shortName: String, val longName: String) {
     LOCAL_TIME("LocalTime", "java.time.LocalTime"),
     LOCAL_DATE_TIME("LocalDateTime", "java.time.LocalDateTime")
 }
-
-

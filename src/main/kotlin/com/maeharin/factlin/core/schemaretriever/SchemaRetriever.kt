@@ -4,14 +4,14 @@ import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.gradle.FactlinExtension
 import java.sql.DatabaseMetaData
 import java.sql.DriverManager
-import java.util.*
+import java.util.Properties
 
 class SchemaRetriever(
-        private val extension: FactlinExtension,
-        private val dialect: Dialect
+    private val extension: FactlinExtension,
+    private val dialect: Dialect
 ) {
     fun retrieve(): List<Table> {
-        when(dialect) {
+        when (dialect) {
             Dialect.POSTGRES -> {
                 Class.forName("org.postgresql.Driver")
             }
@@ -77,14 +77,14 @@ class SchemaRetriever(
     private fun _getColumns(metaData: DatabaseMetaData, table: Table): ArrayList<Column> {
         val primaryKeySet = metaData.getPrimaryKeys(null, null, table.name)
         val primaryKeyNames = ArrayList<String>()
-        while(primaryKeySet.next()) {
+        while (primaryKeySet.next()) {
             primaryKeyNames.add(primaryKeySet.getString("COLUMN_NAME"))
         }
         primaryKeySet.close()
 
         val colSet = metaData.getColumns(null, table.schema, table.name, "%")
         val columns = ArrayList<Column>()
-        while(colSet.next()) {
+        while (colSet.next()) {
             val name = colSet.getString("COLUMN_NAME")
 
             val column = Column(
@@ -92,7 +92,7 @@ class SchemaRetriever(
                     typeName = colSet.getString("TYPE_NAME"),
                     type = colSet.getInt("DATA_TYPE"),
                     isNullable = colSet.getBoolean("NULLABLE"),
-                    defaultValue =  colSet.getString("COLUMN_DEF"),
+                    defaultValue = colSet.getString("COLUMN_DEF"),
                     isPrimaryKey = primaryKeyNames.contains(name),
                     comment = colSet.getString("REMARKS")
             )

@@ -3,7 +3,8 @@ package com.maeharin.factlin.core.kclassbuilder
 import com.maeharin.factlin.core.Dialect
 import com.maeharin.factlin.core.schemaretriever.Column
 import com.maeharin.factlin.core.schemaretriever.Table
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
@@ -19,13 +20,13 @@ class KClassBuilderTest {
                 schema = "public",
                 catalog = null,
                 columns = listOf(
-                        Column(name = "id", type =4, typeName = "serial", defaultValue = "nextval('users_id_seq'::regclass)", isNullable = false, isPrimaryKey = true, comment = "primary key"),
-                        Column(name = "name", type =12, typeName = "varchar", defaultValue = null, isNullable = false, isPrimaryKey = false, comment = "name\nlong\r\nlong\rcomment"),
-                        Column(name = "job", type =12, typeName = "varchar", defaultValue = "'engineer'::character varying", isNullable = false, isPrimaryKey = false, comment = "job name"),
-                        Column(name = "status", type =12, typeName = "varchar", defaultValue = "'ACTIVE'::character varying", isNullable = false, isPrimaryKey = false, comment = "activate status"),
-                        Column(name = "age", type =4, typeName = "int4", defaultValue = "30", isNullable = false, isPrimaryKey = false, comment = "age"),
-                        Column(name = "nick_name", type =12, typeName = "varchar", defaultValue = null, isNullable = true, isPrimaryKey = false, comment = "nick name"),
-                        Column(name = "my_custom_type_col", type =1111, typeName = "my_custom_type", defaultValue = null, isNullable = false, isPrimaryKey = false, comment = "my custom type column")
+                        Column(name = "id", type = 4, typeName = "serial", defaultValue = "nextval('users_id_seq'::regclass)", isNullable = false, isPrimaryKey = true, comment = "primary key"),
+                        Column(name = "name", type = 12, typeName = "varchar", defaultValue = null, isNullable = false, isPrimaryKey = false, comment = "name\nlong\r\nlong\rcomment"),
+                        Column(name = "job", type = 12, typeName = "varchar", defaultValue = "'engineer'::character varying", isNullable = false, isPrimaryKey = false, comment = "job name"),
+                        Column(name = "status", type = 12, typeName = "varchar", defaultValue = "'ACTIVE'::character varying", isNullable = false, isPrimaryKey = false, comment = "activate status"),
+                        Column(name = "age", type = 4, typeName = "int4", defaultValue = "30", isNullable = false, isPrimaryKey = false, comment = "age"),
+                        Column(name = "nick_name", type = 12, typeName = "varchar", defaultValue = null, isNullable = true, isPrimaryKey = false, comment = "nick name"),
+                        Column(name = "my_custom_type_col", type = 1111, typeName = "my_custom_type", defaultValue = null, isNullable = false, isPrimaryKey = false, comment = "my custom type column")
                 )
         )
     }
@@ -39,9 +40,9 @@ class KClassBuilderTest {
                 "assert proper kClass",
                 { assertEquals("UsersFixture", kClass.name()) },
                 { assertEquals("UsersFixture.kt", kClass.fileName()) },
-                { assertEquals("users", kClass.tableName ) },
-                { assertEquals("user table", kClass.comment ) },
-                { assertEquals("public", kClass.schema ) },
+                { assertEquals("users", kClass.tableName) },
+                { assertEquals("user table", kClass.comment) },
+                { assertEquals("public", kClass.schema) },
                 {
                     assertIterableEquals(setOf(
                             "import com.ninja_squad.dbsetup_kotlin.DbSetupBuilder",

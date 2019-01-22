@@ -9,4 +9,3 @@ fun String.toCamelCase(isCapitalizeFirstChar: Boolean = true): String {
         }
     }.joinToString("")
 }
-

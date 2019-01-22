@@ -16,9 +16,9 @@ import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 
 class CodeGenerator(
-        private val extension: FactlinExtension,
-        private val tables: List<Table>,
-        private val dialect: Dialect
+    private val extension: FactlinExtension,
+    private val tables: List<Table>,
+    private val dialect: Dialect
 ) {
     private lateinit var dir: File
     private lateinit var template: Template
@@ -32,7 +32,7 @@ class CodeGenerator(
 
         if (dir.exists()) {
             if (extension.cleanOutputDir) {
-                logger.warn("cleanOutputDir...${dir}")
+                logger.warn("cleanOutputDir...$dir")
                 if (dir.deleteRecursively()) {
                     dir.mkdir()
                 } else {
@@ -71,7 +71,7 @@ class CodeGenerator(
 
         val writer = BufferedWriter(
                 OutputStreamWriter(
-                        FileOutputStream("${dir}/${KClass.fileName()}"),
+                        FileOutputStream("$dir/${KClass.fileName()}"),
                         "utf-8"
                 )
         )
@@ -88,4 +88,3 @@ class CodeGenerator(
         }
     }
 }
-
