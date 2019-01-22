@@ -7,11 +7,11 @@ import org.slf4j.LoggerFactory
 import java.sql.Types
 
 class KClassBuilder(
-        private val table: Table,
-        private val dialect: Dialect,
-        private val customDefaultValues: List<List<String>>,
-        private val customTypeMapper: Map<String, String>,
-        private val useCamelCase: Boolean
+    private val table: Table,
+    private val dialect: Dialect,
+    private val customDefaultValues: List<List<String>>,
+    private val customTypeMapper: Map<String, String>,
+    private val useCamelCase: Boolean
 ) {
     val logger = LoggerFactory.getLogger(javaClass)
 
@@ -48,11 +48,11 @@ class KClassBuilder(
                             isNullable = columnMeta.isNullable
                     ).build()
 
-                    logger.info("${table.name}:${columnMeta} => type: ${type}, defaultValue: ${defaultValue}")
+                    logger.info("${table.name}:$columnMeta => type: $type, defaultValue: $defaultValue")
 
                     KProp(
                             tableName = table.name,
-                            name = if(useCamelCase) columnMeta.name.toCamelCase(isCapitalizeFirstChar = false) else columnMeta.name,
+                            name = if (useCamelCase) columnMeta.name.toCamelCase(isCapitalizeFirstChar = false) else columnMeta.name,
                             columnName = columnMeta.name,
                             type = type,
                             typeName = columnMeta.typeName,
@@ -64,7 +64,6 @@ class KClassBuilder(
                 }
         )
     }
-
 
     /**
      * build prop's Kotlin type
@@ -103,20 +102,20 @@ class KClassBuilder(
             Types.TIME_WITH_TIMEZONE -> KType.LOCAL_TIME
             Types.TIMESTAMP_WITH_TIMEZONE -> KType.LOCAL_DATE_TIME
             else -> {
-                //Types.NULL
-                //Types.OTHER
-                //Types.JAVA_OBJECT
-                //Types.DISTINCT
-                //Types.STRUCT
-                //Types.ARRAY
-                //Types.BLOB
-                //Types.CLOB
-                //Types.REF
-                //Types.DATALINK
-                //Types.ROWID
-                //Types.NCLOB
-                //Types.SQLXML
-                //Types.REF_CURSOR
+                // Types.NULL
+                // Types.OTHER
+                // Types.JAVA_OBJECT
+                // Types.DISTINCT
+                // Types.STRUCT
+                // Types.ARRAY
+                // Types.BLOB
+                // Types.CLOB
+                // Types.REF
+                // Types.DATALINK
+                // Types.ROWID
+                // Types.NCLOB
+                // Types.SQLXML
+                // Types.REF_CURSOR
                 KType.STRING
             }
         }

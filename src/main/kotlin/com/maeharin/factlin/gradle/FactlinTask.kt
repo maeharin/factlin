@@ -5,7 +5,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.slf4j.LoggerFactory
 
-open class FactlinTask: DefaultTask() {
+open class FactlinTask : DefaultTask() {
     var logger = LoggerFactory.getLogger(javaClass)
 
     @TaskAction
@@ -18,7 +18,7 @@ open class FactlinTask: DefaultTask() {
         logger.info("displayName: ${project.displayName}")
         logger.info("rootDir: ${project.rootDir}")
         logger.info("projectDir: ${project.projectDir}")
-        logger.info("factlinExtension: ${factlinExtension}")
+        logger.info("factlinExtension: $factlinExtension")
         logger.info("=============================")
 
         FactlinCore(factlinExtension).exec()

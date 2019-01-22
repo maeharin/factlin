@@ -2,11 +2,11 @@ package com.maeharin.factlin.core.kclassbuilder
 
 // todo customizeable
 class DefaultValueBuilder(
-        private val tableName: String,
-        private val columnName: String,
-        private val dbDefaultValue: String?, // we don't use this currently
-        private val type: KType,
-        private val isNullable: Boolean
+    private val tableName: String,
+    private val columnName: String,
+    private val dbDefaultValue: String?, // we don't use this currently
+    private val type: KType,
+    private val isNullable: Boolean
 ) {
     fun build(): String {
         return if (isNullable) {
@@ -17,7 +17,7 @@ class DefaultValueBuilder(
     }
 
     fun _defaultValue(type: KType): String {
-        return when(type) {
+        return when (type) {
             KType.BOOLEAN -> "false"
             KType.BYTE -> "0"
             KType.SHORT -> "0"
@@ -33,4 +33,3 @@ class DefaultValueBuilder(
         }
     }
 }
-

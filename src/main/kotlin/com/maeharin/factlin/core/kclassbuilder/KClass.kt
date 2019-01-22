@@ -3,12 +3,12 @@ package com.maeharin.factlin.core.kclassbuilder
 import com.maeharin.factlin.ext.toCamelCase
 
 data class KClass(
-        val tableName: String,
-        private val name: String,
-        val comment: String,
-        val schema: String?,
-        private val catalog: String?,
-        val props: List<KProp>
+    val tableName: String,
+    private val name: String,
+    val comment: String,
+    val schema: String?,
+    private val catalog: String?,
+    val props: List<KProp>
 ) {
     fun name(): String {
         return "${name.toCamelCase()}Fixture"
@@ -31,4 +31,3 @@ data class KClass(
                 .plus("import com.ninja_squad.dbsetup_kotlin.mappedValues")
     }
 }
-
