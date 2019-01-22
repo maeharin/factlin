@@ -242,6 +242,9 @@ factlin {
     // this is not working for no schema support database(ex: mariadb, mysql...)
     // default: null (include all schemas)
     schema = "public"
+
+    // if true, use camel-case for fixture class property　 name.
+    useCamelCase = false
 }
 ```
 
