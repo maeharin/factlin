@@ -126,7 +126,7 @@ class KClassBuilderTest {
     }
 
     @Test
-    fun test_build_with_custom_defualt_values() {
+    fun test_build_with_custom_default_values() {
         val customDefaultValues = listOf(
                 listOf("users", "job", "\"engineer\""),
                 listOf("users", "status", "\"ACTIVE\""),
