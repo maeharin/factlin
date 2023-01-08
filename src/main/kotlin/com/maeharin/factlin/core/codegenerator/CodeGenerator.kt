@@ -7,6 +7,7 @@ import com.maeharin.factlin.core.kclassbuilder.KClass
 import com.maeharin.factlin.core.kclassbuilder.KClassBuilder
 import com.maeharin.factlin.core.schemaretriever.Table
 import com.maeharin.factlin.gradle.FactlinExtension
+import freemarker.cache.FileTemplateLoader
 import freemarker.template.Configuration
 import freemarker.template.Template
 import org.slf4j.LoggerFactory
@@ -45,8 +46,10 @@ class CodeGenerator(
 
         // template config
         template = if (extension.fixtureTemplatePath != null) {
-            val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS)
-            config.getTemplate(extension.fixtureTemplatePath)
+            val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS).also {
+                it.templateLoader = FileTemplateLoader(File(extension.fixtureTemplatePath!!), false)
+            }
+            config.getTemplate(extension.fixtureTemplateName)
         } else {
             val config = Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS).also {
                 it.setClassForTemplateLoading(javaClass, "/factlin")
